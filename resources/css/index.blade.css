@@ -1,0 +1,24 @@
+@font-face {
+  font-family: "Hospital";
+  src: url("resources/fonts/Hospital-Black.otf");
+  src: url("resources/fonts/Hospital-Bold.otf");
+  src: url("resources/fonts/Hospital-Iconos.otf");
+  src: url("resources/fonts/Hospital-Medium.otf");
+  src: url("resources/fonts/Hospital-Regular.otf");
+}
+
+.divider:after,
+.divider:before {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+.h-custom {
+  height: calc(100% - 73px);
+}
+@media (max-width: 450px) {
+  .h-custom {
+    height: 100%;
+  }
+}
