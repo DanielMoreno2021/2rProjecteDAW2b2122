@@ -7,8 +7,9 @@
     <title>Document</title>
     <link rel="stylesheet" href="login.blade.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
 </head>
-<body>
+<body style="font-family: 'Assistant';">
 <section class="vh-90">
   <div class="container-fluid h-custom">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -25,19 +26,22 @@
 
           <br>
 
-          <!-- Email input -->
+          <!-- Email Login -->
           <div class="form-outline mb-4">
           <label class="form-label" for="form3Example3">Correo electrónico</label>
             <input type="email" id="form3Example3" class="form-control form-control-lg"
               placeholder="Introduce tu correo electrónico" />
           </div>
 
-          <!-- Password input -->
+          <!-- Contraseña Login -->
           <div class="form-outline mb-3">
           <label class="form-label" for="form3Example4">Contraseña</label>
             <input type="contraseña" id="form3Example4" class="form-control form-control-lg"
               placeholder="Introduce tu contraseña" />
           </div>
+
+          <!-- Boton Login -->
+          <button type="button" class="btn btn-danger" style="background-color: #104069; float: right;">Iniciar Sesión</button>
         </form>
       </div>
     </div>
