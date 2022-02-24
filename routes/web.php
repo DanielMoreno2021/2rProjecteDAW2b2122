@@ -28,3 +28,7 @@ Route::get('supervisor', function () {
 Route::get('administrador', function () {
     return view('administrador');
 });
+
+Route::get('administrador/cartallamada', function () {
+    return view('cartallamada');
+});
