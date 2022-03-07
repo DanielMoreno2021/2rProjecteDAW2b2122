@@ -33,6 +33,10 @@ Route::get('administrador', function () {
     return view('administrador');
 });
 
-Route::get('administrador/cartallamada', function () {
+Route::get('cartallamada', function () {
     return view('cartallamada');
+});
+
+Route::get('helpboxvideos', function () {
+    return view('helpboxvideos');
 });
