@@ -1,10 +1,15 @@
+@media screen and (max-width: 1920px) {
+    .cartallamada {
+        margin-top: 150px;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .cartallamada {
+        margin-top: 10px;
+    }
+}
+
 textarea.textarea {
     white-space: pre-wrap;
 }
-
-.dropdown-menu-center {
-    left: 50% !important;
-    right: auto !important;
-    text-align: center !important;
-    transform: translate(-50%, 0) !important;
-  }

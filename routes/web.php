@@ -40,3 +40,11 @@ Route::get('cartallamada', function () {
 Route::get('helpboxvideos', function () {
     return view('helpboxvideos');
 });
+
+Route::get('crearUsuari', function () {
+    return view('crearUsuari');
+});
+
+Route::get('listaexpedientes', function () {
+    return view('listaexpedientes');
+});

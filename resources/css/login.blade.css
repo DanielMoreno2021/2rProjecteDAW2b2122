@@ -1,15 +1,19 @@
-.divider:after,
-.divider:before {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: #eee;
+@media screen and (max-width: 1920px) {
+    .login {
+        margin-top: 21.52852529601722vh;
+    }
+
+    .logobroggi {
+        margin-left: 17.222820236813778vh;
+    }
 }
-.h-custom {
-  height: calc(100% - 73px);
-}
-@media (max-width: 450px) {
-  .h-custom {
-    height: 100%;
-  }
+
+@media screen and (max-width: 1280px) {
+    .login {
+        margin-top: 3.2292787944025836vh;
+    }
+
+    .logobroggi {
+        margin-left: 5.382131324004305vh;
+    }
 }

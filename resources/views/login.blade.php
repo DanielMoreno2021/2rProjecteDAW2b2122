@@ -5,15 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    {{-- <link rel="stylesheet" href="login.blade.css"> --}}
+    <link rel="stylesheet" href="../resources/css/login.blade.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
     <link rel="icon" href="img/cruzroja.png" type="image/png" height="100"/>
 </head>
 <body style="font-family: 'Assistant';">
-<section class="vh-90">
-  <div class="container-fluid h-custom">
-    <div class="row d-flex justify-content-center align-items-center h-100">
+  <div class="login container-fluid">
+    <div class="row justify-content-center align-items-center">
       <div class="col-md-9 col-lg-6 col-xl-5">
         <img src="{{url('img/hospital.png')}}" width="400" height="400" class="img-fluid"
           alt="Sample image">
@@ -23,11 +22,10 @@
         <form action="{{action([App\Http\Controllers\UsuariController::class,'login'])}}" method="POST">
             @csrf
           <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-          <img src="{{url('img/projectebroggi.png')}}" width="350" class="img-fluid"
+          <img src="{{url('img/logobroggi.png')}}" width="280" class="img-fluid logobroggi"
           alt="Sample image">
-          </div>
+        </div>
 
-          <br>
            @if (Session::has("error"))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{ Session::get("error") }}
@@ -35,14 +33,14 @@
             @endif
 
           <!-- Codi Login -->
-          <div class="form-outline mb-4">
+          <div class="form-outline mb-2">
           <label class="form-label" for="codi">Codigo</label>
             <input type="text" id="codi" name='codi' class="form-control form-control-lg" value="{{ old('codi')}}" required
               placeholder="Introduce tu Codigo" />
           </div>
 
           <!-- Contraseña Login -->
-          <div class="form-outline mb-3">
+          <div class="form-outline mb-2">
           <label class="form-label" for="contraseña">Contraseña</label>
             <input type="password" id="contraseña" name="contraseña" class="form-control form-control-lg" value="{{ old('contraseña')}}" required
               placeholder="Introduce tu contraseña" />

@@ -5,8 +5,8 @@
 @endsection
 
 @section('botoncerrarsesion')
-    <form class="d-flex">
-        <button class="btn btn-outline-dark" type="submit">Cancelar Carta</button>
+    <form>
+        <input type="button" class="btn btn-outline-dark" value="Cancelar Carta" onclick="history.go(-1)">
     </form>
 @endsection
 
@@ -19,10 +19,10 @@
 @endsection
 
 @section('contenido')
-<div class="container" style="margin-top: 10px;">
+<div class="container cartallamada">
     <div class="row">
 
-        <label for="" class="col-2 col-form-label">Tipo de Emergencia</label>
+        <label for="" class="col-2 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What is your type of Emergency?">Tipo de Emergencia</label>
         <div class="col-4 dropdown d-grid gap-2">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 Buscar ...
@@ -34,7 +34,8 @@
             </ul>
         </div>
 
-        <label for="" class="col-2 col-form-label">Emergencia</label>
+
+        <label for="" class="col-2 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What is your Emergency? / What do you need?">Emergencia</label>
         <div class="col-4 dropdown d-grid gap-2">
             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 Buscar ...
@@ -57,7 +58,7 @@
       <div class="mt-3 justify-content-between">
         <div class="row">
 
-          <label for="" class="col-1 col-form-label">Localización</label>
+          <label for="" class="col-1 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What is your Location?">Localización</label>
           <div class="col-3">
               <input type="" class="form-control" id="" readonly>
           </div>
@@ -85,19 +86,19 @@
       <div class="mt-3 justify-content-between">
           <div class="row">
 
-            <label for="" class="col-1 col-form-label">Provincia</label>
+            <label for="" class="col-1 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What province are you in?">Provincia</label>
             <div class="col-3">
                 <input type="" class="form-control" id="">
             </div>
 
 
-            <label for="" class="col-1 col-form-label">Comarca</label>
+            <label for="" class="col-1 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What region are you in?">Comarca</label>
             <div class="col-3">
             <input type="" class="form-control" id="">
             </div>
 
 
-            <label for="" class="col-1 col-form-label">Municipio</label>
+            <label for="" class="col-1 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What municipality are you in?">Municipio</label>
             <div class="col-3">
             <input type="" class="form-control" id="">
             </div>
@@ -130,12 +131,12 @@
       <div class="mt-3 justify-content-between">
         <div class="row">
 
-            <label for="" class="col-2 col-form-label">Telefono</label>
+            <label for="" class="col-2 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What is your telephone number?">Telefono</label>
             <div class="col-4">
             <input type="" class="form-control" id="">
             </div>
 
-            <label for="" class="col-2 col-form-label">Alertante</label>
+            <label for="" class="col-2 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What is your address?">Dirección</label>
             <div class="col-4">
             <input type="" class="form-control" id="">
             </div>
@@ -145,7 +146,7 @@
       <div class="mt-3 justify-content-between">
           <div class="row">
 
-              <label for="" class="col-2 col-form-label">Nombre</label>
+              <label for="" class="col-2 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What is your name?">Nombre</label>
               <div class="col-4">
               <input type="" class="form-control" id="">
               </div>

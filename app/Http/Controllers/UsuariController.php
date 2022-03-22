@@ -41,7 +41,7 @@ class UsuariController extends Controller
                 $response = redirect('/administrador');
             }
         } else {
-            $request->session()->flash('error', 'Usuario o contraseña incorrectas');
+            $request->session()->flash('error', 'Usuario o Contraseña Incorrectos');
             $response = redirect('/')->withInput();
         }
         return $response;

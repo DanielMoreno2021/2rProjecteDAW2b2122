@@ -14,9 +14,17 @@
     width: 87.87346221441125vh;
 }
 
-.dropdown-menu {
-    width:500px;
-    text-align: center;
+@media screen and (max-width: 1920px) {
+    .dropdown-menu {
+        width:820px;
+        text-align: center;
+    }
+}
+@media screen and (max-width: 1280px) {
+    .dropdown-menu {
+        width: 500px;
+        text-align: center;
+    }
 }
 
 .dropdown-menu > li:nth-child(odd) {
