@@ -24,27 +24,20 @@
 
         <label for="" class="col-2 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What is your type of Emergency?">Tipo de Emergencia</label>
         <div class="col-4 dropdown d-grid gap-2">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                Buscar ...
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
+            <select class="form-select" aria-label="Default select example">
+                @foreach ( $tipusincidents as $tipusincident )
+                <option value="">{{ $tipusincident->descripcio }}</option>
+                @endforeach
+            </select>
         </div>
-
 
         <label for="" class="col-2 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What is your Emergency? / What do you need?">Emergencia</label>
         <div class="col-4 dropdown d-grid gap-2">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                Buscar ...
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
+            <select class="form-select" aria-label="Default select example">
+                @foreach ( $tipusincidents as $tipusincident )
+                <option value="">Poner Incidents aqui</option>
+                @endforeach
+            </select>
         </div>
     </div>
 

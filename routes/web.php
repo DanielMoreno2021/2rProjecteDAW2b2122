@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuariController;
+use App\Http\Controllers\TipusIncidentController;
+use App\Http\Controllers\IncidentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,9 +35,9 @@ Route::get('administrador', function () {
     return view('administrador');
 });
 
-Route::get('cartallamada', function () {
-    return view('cartallamada');
-});
+// Route::get('cartallamada', function () {
+//     return view('cartallamada');
+// });
 
 Route::get('helpboxvideos', function () {
     return view('helpboxvideos');
@@ -48,3 +50,9 @@ Route::get('crearUsuari', function () {
 Route::get('listaexpedientes', function () {
     return view('listaexpedientes');
 });
+
+Route::resource('cartallamada', TipusIncidentController::class);
+
+// Route::resource('cartallamada', IncidentsController::class);
+
+Route::resource('gestionusuarios', UsuariController::class);

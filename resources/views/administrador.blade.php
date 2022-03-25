@@ -23,7 +23,7 @@
 <div class="container">
   <div class="row">
     <div class="col-12 text-center">
-    <button type="button" class="btn btn-danger gestionarusuarios">GESTIONAR USUARIOS</button>
+    <button onclick="window.location.href='{{ url('/gestionusuarios') }}'" type="button" class="btn btn-danger gestionarusuarios">GESTIONAR USUARIOS</button>
     </div>
 
     <div class="dropdown col-12 col-offset-2 text-center">
