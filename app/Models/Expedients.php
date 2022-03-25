@@ -8,11 +8,4 @@ use Illuminate\Database\Eloquent\Model;
 class Expedients extends Model
 {
     use HasFactory;
-
-    protected $table = 'expedients';
-    public $timestamps = false;
-
-
-    
-
 }
