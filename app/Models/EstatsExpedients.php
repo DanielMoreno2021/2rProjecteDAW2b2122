@@ -5,14 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Expedients extends Model
+class EstatsExpedients extends Model
 {
     use HasFactory;
-
-    protected $table = 'expedients';
-    public $timestamps = false;
-
-
-    
-
 }
