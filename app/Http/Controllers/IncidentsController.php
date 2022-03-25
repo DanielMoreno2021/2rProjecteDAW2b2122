@@ -14,7 +14,8 @@ class IncidentsController extends Controller
      */
     public function index()
     {
-        $incident = new Incident();
+        $incidents = Incidents::all();
+        return view('cartallamada', compact('incidents'));
     }
 
     /**

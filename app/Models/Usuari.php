@@ -13,5 +13,7 @@ class Usuari extends Authenticatable
 
     use HasFactory;
     protected $table = 'usuaris';
-    public $timestamps = false;
+    protected $primarykey = 'id';
+    public $incrementing = true;
+    public $timestamps = true;
 }
