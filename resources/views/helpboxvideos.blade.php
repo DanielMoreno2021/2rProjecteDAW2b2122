@@ -5,9 +5,9 @@
 @endsection
 
 @section('botoncerrarsesion')
-    <form class="d-flex" action="{{action([App\Http\Controllers\UsuariController::class,'logout'])}}" method="GET">
-        <button class="btn btn-outline-dark" type="submit">Cerrar Sesión <i class="fa fa-sign-out"></i></button>
-    </form>
+        <form>
+            <input type="button" class="btn btn-outline-dark" value="Volver Atrás" onclick="history.go(-1)">
+        </form>
 @endsection
 
 @section('bootstrap5.1')

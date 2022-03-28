@@ -5,9 +5,9 @@
 @endsection
 
 @section('botoncerrarsesion')
-    <form class="d-flex" action="{{ action([App\Http\Controllers\UsuariController::class, 'logout']) }}" method="GET">
-        <button class="btn btn-outline-dark" type="submit">Cerrar Sesión <i class="fa fa-sign-out"></i></button>
-    </form>
+        <form>
+            <input type="button" class="btn btn-outline-dark" value="Volver Atrás" onclick="history.go(-1)">
+        </form>
 @endsection
 
 @section('bootstrap5.1')
@@ -28,9 +28,9 @@
                     <select class="form-select" aria-label="Default select example">
                         <option></option>
                         <option value="1">Código</option>
-                        <option value="2">F.Creacion</option>
-                        <option value="3">F.Modificacion</option>
-                        <option value="3">Usuario última modificació</option>
+                        <option value="2">Fecha de Creación</option>
+                        <option value="3">Fecha de Modificación</option>
+                        <option value="3">Usuario Última Modificación</option>
                         <option value="3">Estado</option>
                     </select>
                 </div>
@@ -41,11 +41,11 @@
                             <thead>
                                 <tr>
                                     <td>Código</td>
-                                    <td>F.Creacion</td>
-                                    <td>F.Modificacion</td>
-                                    <td>Usuario última modificació</td>
+                                    <td>Fecha de Creación</td>
+                                    <td>Fecha de Modificación</td>
+                                    <td>Usuario Última Modificación</td>
                                     <td>Estado</td>
-                                    <td></td>
+                                    <td>Edición</td>
                                 </tr>
                             </thead>
                             <tbody>
