@@ -71,7 +71,7 @@ class UsuariController extends Controller
      */
     public function create()
     {
-        //
+        return view('crearUsuari'); //
     }
 
     /**
@@ -82,7 +82,15 @@ class UsuariController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = new Usuari();
+        $user->codi = $request->input('codigo');
+        $user->nom = $request->input('nom');
+        $user->cognoms = $request->input('cognoms');
+        $user->contrassenya = $request->input(bcrypt('contrassenya'));
+        $user->perfils_id = $request->input('rol');
+
+        $user->save();
+        return redirect()->action([UsuariController::class, 'index']);
     }
 
     /**
@@ -127,6 +135,7 @@ class UsuariController extends Controller
      */
     public function destroy(Usuari $usuari)
     {
-        //
+        $usuari->delete();
+        return redirect()->action([UsuariController::class, 'index']);
     }
 }

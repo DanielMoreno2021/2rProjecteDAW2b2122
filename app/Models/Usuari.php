@@ -15,5 +15,5 @@ class Usuari extends Authenticatable
     protected $table = 'usuaris';
     protected $primarykey = 'id';
     public $incrementing = true;
-    public $timestamps = true;
+    public $timestamps = false;
 }
