@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Incidents;
 use Illuminate\Http\Request;
+use App\Models\TipusIncident;
 
 class IncidentsController extends Controller
 {
@@ -15,7 +16,8 @@ class IncidentsController extends Controller
     public function index()
     {
         $incidents = Incidents::all();
-        return view('cartallamada', compact('incidents'));
+        $tipusincidents = TipusIncident::all();
+        return view('cartallamada', compact('incidents', 'tipusincidents'));
     }
 
     /**

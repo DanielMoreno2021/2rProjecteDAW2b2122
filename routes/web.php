@@ -51,8 +51,8 @@ Route::get('listaexpedientes', function () {
     return view('listaexpedientes');
 });
 
-Route::resource('cartallamada', TipusIncidentController::class);
 
-// Route::resource('cartallamada', IncidentsController::class);
+
+Route::resource('cartallamada', IncidentsController::class);
 
 Route::resource('gestionusuarios', UsuariController::class);
