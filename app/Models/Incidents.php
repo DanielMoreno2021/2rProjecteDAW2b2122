@@ -13,4 +13,11 @@ class Incidents extends Model
     protected $primarykey = 'id';
     public $incrementing = true;
     public $timestamps = true;
+
+    public function tipusIncident(){
+        return $this->hasOne(TipusIncident::class);
+    }
+    public function cartesTrucades(){
+        return $this->hasMany(CartesTrucades::class,'incidents_id');
+    }
 }

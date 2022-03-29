@@ -8,4 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Expedients extends Model
 {
     use HasFactory;
+
+    protected $table = 'expedients';
+    //protected $primarykey = 'id';
+    //public $incrementing = true;
+    public $timestamps = false;
+
+    public function estatsExpedients()
+    {
+        return $this->hasMany(EstatsExpedients::class,'estats_expedients_id');
+    }
+
+
+    public function cartestrucades()
+    {
+        return $this->belongsTo(CartesTrucades::class, 'estats_expedients');
+    }
+
 }

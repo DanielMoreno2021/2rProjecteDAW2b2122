@@ -13,4 +13,8 @@ class TipusIncident extends Model
     protected $primarykey = 'id';
     public $incrementing = true;
     public $timestamps = true;
+
+    public function incidents(){
+        return $this->hasMany(Incidents::class, 'classes_incidents_id');
+    }
 }
