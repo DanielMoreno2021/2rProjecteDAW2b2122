@@ -86,7 +86,7 @@ class UsuariController extends Controller
         $user->codi = $request->input('codigo');
         $user->nom = $request->input('nom');
         $user->cognoms = $request->input('cognoms');
-        $user->contrassenya = $request->input(bcrypt('contrassenya'));
+        $user->contrassenya = bcrypt($request->input('contrassenya'));
         $user->perfils_id = $request->input('rol');
 
         $user->save();
@@ -110,9 +110,9 @@ class UsuariController extends Controller
      * @param  \App\Models\Usuari  $usuari
      * @return \Illuminate\Http\Response
      */
-    public function edit(Usuari $usuari)
+    public function edit(Usuari $gestionusuario)
     {
-        //
+        return view('updateUsuari', compact('gestionusuario'));
     }
 
     /**
@@ -122,9 +122,16 @@ class UsuariController extends Controller
      * @param  \App\Models\Usuari  $usuari
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Usuari $usuari)
+    public function update(Request $request, Usuari $gestionusuario)
     {
-        //
+        $gestionusuario->codi = $request->input('codigo');
+        $gestionusuario->nom = $request->input('nom');
+        $gestionusuario->cognoms = $request->input('cognoms');
+        $gestionusuario->contrassenya = bcrypt($request->input('contrassenya'));
+        $gestionusuario->perfils_id = $request->input('rol');
+
+        $gestionusuario->save();
+        return redirect()->action([UsuariController::class, 'index']);
     }
 
     /**
@@ -133,9 +140,9 @@ class UsuariController extends Controller
      * @param  \App\Models\Usuari  $usuari
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Usuari $usuari)
+    public function destroy(Usuari $gestionusuario)
     {
-        $usuari->delete();
+        $gestionusuario->delete();
         return redirect()->action([UsuariController::class, 'index']);
     }
 }

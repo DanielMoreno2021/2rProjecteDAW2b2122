@@ -1,7 +1,7 @@
 @extends('plantillas.principal')
 
 @section('titulodecadapagina')
-    <title>Crear Usuario</title>
+    <title>Editar Usuario</title>
 @endsection
 
 @section('botoncerrarsesion')
@@ -20,11 +20,14 @@
 @endsection
 
 @section('contenido')
-    <form action="{{ action([App\Http\Controllers\UsuariController::class, 'store']) }}" method="POST">
+    <form
+        action="{{ action([App\Http\Controllers\UsuariController::class, 'update'], ['gestionusuario' => $gestionusuario->id]) }}"
+        method="POST">
         @csrf
+        @method('PUT')
         <div class="container" style="margin-top: 10px;">
             <div class="row">
-                <p class="col-12 fs-1">Crear Usuario</p>
+                <p class="col-12 fs-1">Editar Usuario</p>
             </div>
 
 
@@ -33,13 +36,14 @@
 
                     <label for="" class="col-2 col-form-label">Código</label>
                     <div class="col-4">
-                        <input type="text" class="form-control" id="codigo" name="codigo">
+                        <input type="text" class="form-control" id="codigo" name="codigo"
+                            value="{{ $gestionusuario->codi }}">
                     </div>
 
 
                     <label for="" class="col-2 col-form-label">Rol</label>
                     <div class="col-4">
-                        <select class="form-select" aria-label="Default select example" id="rol" name="rol">
+                        <select class="form-select" aria-label="Default select example" id="rol" name="rol" value>
 
                             {{-- @foreach ($perfils as $perfil)
 
@@ -62,12 +66,13 @@
 
                     <label for="" class="col-2 col-form-label">Nombre</label>
                     <div class="col-4">
-                        <input type="text" class="form-control" id="nom" name="nom">
+                        <input type="text" class="form-control" id="nom" name="nom" value="{{ $gestionusuario->codi }}">
                     </div>
 
-                    <label for="" class="col-2 col-form-label">Apellidos</label>
+                    <label for="" class=" col-2 col-form-label">Apellidos</label>
                     <div class="col-4">
-                        <input type="text" class="form-control" id="cognoms" name="cognoms">
+                        <input type="text" class="form-control" id="cognoms" name="cognoms"
+                            value="{{ $gestionusuario->cognoms }}">
                     </div>
 
                 </div>
@@ -78,7 +83,8 @@
 
                     <label for="" class="col-2 col-form-label">Contraseña:</label>
                     <div class="col-5">
-                        <input type="password" class="form-control" id="contrassenya" name="contrassenya">
+                        <input type="password" class="form-control" id="contrassenya" name="contrassenya"
+                            value="{{ $gestionusuario->contrassenya }}">
                     </div>
 
                     {{-- <label class="col-2 form-check-label" for="defaultCheck1">
@@ -105,7 +111,7 @@
             <div class="mt-3 justify-content-center mt-4">
                 <div class="row">
                     <div class="col-4 d-grid offset-md-8">
-                        <button type="submit" class="btn btn-danger" style="background-color: #104069">Crear
+                        <button type="submit" class="btn btn-danger" style="background-color: #104069">Editar
                             usuario</button>
                     </div>
                 </div>

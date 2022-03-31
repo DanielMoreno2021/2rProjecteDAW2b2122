@@ -49,10 +49,16 @@
                             <td>{{ $usuari->cognoms }}</td>
                             <td>{{ $usuari->contrassenya }}</td>
                             <td>
-                                <button class="btn btn-secondary" type="button"><i class="fa-solid fa-pen-to-square"></i>
-                                    Modificar</button>
+                                <form class="float-right"
+                                    action="{{ action([App\Http\Controllers\UsuariController::class, 'edit'], ['gestionusuario' => $usuari->id]) }}"
+                                    method="GET">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-sm btn-secondary"><i class="fa fa-edit "
+                                            aria-hidden="true"></i>Modificar</button>
+                                </form>
                                 <form class="float-right ml-1"
-                                    action="{{ action([App\Http\Controllers\UsuariController::class, 'destroy'], ['usuari' => $usuari->id]) }}"
+                                    action="{{ action([App\Http\Controllers\UsuariController::class, 'destroy'], ['gestionusuario' => $usuari->id]) }}"
                                     method="POST">
                                     @csrf
                                     @method('DELETE')
