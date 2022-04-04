@@ -1,12 +1,12 @@
 @extends('plantillas.principal')
 
 @section('titulodecadapagina')
-    <title>Carta Llamada</title>
+    <title>Carta Trucada</title>
 @endsection
 
 @section('botoncerrarsesion')
     <form>
-        <input type="button" class="btn btn-outline-dark" value="Cancelar Carta" onclick="history.go(-1)">
+        <input type="button" class="btn btn-outline-dark" value="Cancel·lar Carta" onclick="history.go(-1)">
     </form>
 @endsection
 
@@ -22,7 +22,7 @@
 <div class="container cartallamada">
     <div class="row">
 
-        <label for="" class="col-2 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What is your type of Emergency?">Tipo de Emergencia</label>
+        <label for="" class="col-2 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What is your type of Emergency?">Tipus de Emergencia</label>
         <div class="col-4 dropdown d-grid gap-2">
             <select class="form-select" aria-label="Default select example">
                 @foreach ( $tipusincidents as $tipusincident )
@@ -51,14 +51,14 @@
       <div class="mt-3 justify-content-between">
         <div class="row">
 
-          <label for="" class="col-1 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What is your Location?">Localización</label>
+          <label for="" class="col-1 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What is your Location?">Localització</label>
           <div class="col-3">
               <input type="" class="form-control" id="" readonly>
           </div>
 
 
           <div class="col-5 d-grid gap-2">
-            <button type="button" class="btn btn-danger" style="background-color: #104069">Abrir Mapa</button>
+            <button type="button" class="btn btn-danger" style="background-color: #104069">Obrir Mapa</button>
           </div>
 
 
@@ -68,7 +68,7 @@
             <div class="form-check col-3">
                 <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                 <label class="form-check-label" for="flexCheckDefault">
-                  Fuera de Catalunya
+                  Fora de Catalunya
                 </label>
             </div>
 
@@ -91,7 +91,7 @@
             </div>
 
 
-            <label for="" class="col-1 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What municipality are you in?">Municipio</label>
+            <label for="" class="col-1 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What municipality are you in?">Municipi</label>
             <div class="col-3">
             <input type="" class="form-control" id="">
             </div>
@@ -102,12 +102,12 @@
       <div class="mt-3 justify-content-between">
         <div class="row">
 
-            <label for="" class="col-2 col-form-label">Descripción</label>
+            <label for="" class="col-2 col-form-label">Descripció</label>
             <div class="col-4">
             <input type="" class="form-control" id="">
             </div>
 
-            <label for="" class="col-2 col-form-label">Detalles</label>
+            <label for="" class="col-2 col-form-label">Detalls</label>
             <div class="col-4">
             <input type="" class="form-control" id="">
             </div>
@@ -116,7 +116,7 @@
     </div>
       <form>
           <div class="form-group">
-              <label for="exampleFormControlTextarea1">Otras Referencias</label>
+              <label for="exampleFormControlTextarea1">Altres Referencies</label>
               <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
           </div>
       </form>
@@ -124,12 +124,12 @@
       <div class="mt-3 justify-content-between">
         <div class="row">
 
-            <label for="" class="col-2 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What is your telephone number?">Telefono</label>
+            <label for="" class="col-2 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What is your telephone number?">Telèfon</label>
             <div class="col-4">
             <input type="" class="form-control" id="">
             </div>
 
-            <label for="" class="col-2 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What is your address?">Dirección</label>
+            <label for="" class="col-2 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What is your address?">Direcció</label>
             <div class="col-4">
             <input type="" class="form-control" id="">
             </div>
@@ -139,13 +139,13 @@
       <div class="mt-3 justify-content-between">
           <div class="row">
 
-              <label for="" class="col-2 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What is your name?">Nombre</label>
+              <label for="" class="col-2 col-form-label" data-bs-toggle="tooltip" data-bs-placement="top" title="What is your name?">Nom</label>
               <div class="col-4">
               <input type="" class="form-control" id="">
               </div>
 
           <div class="col-6 d-grid gap-2">
-              <button type="button" class="btn btn-danger" style="background-color: #104069">Registrar/Antecedentes</button>
+              <button type="button" class="btn btn-danger" style="background-color: #104069">Registrar/Antecedents</button>
           </div>
       </div>
 
@@ -153,10 +153,10 @@
           <div class="row">
 
           <div class="col-6 d-grid gap-2">
-              <button type="button" class="btn btn-danger" style="background-color: #104069">Añadir a un expediente</button>
+              <button type="button" class="btn btn-danger" style="background-color: #104069">Afegir a un expedient</button>
           </div>
           <div class="col-6 d-grid gap-2">
-              <button type="button" class="btn btn-danger" style="background-color: #104069">Crear expediente nuevo</button>
+              <button type="button" class="btn btn-danger" style="background-color: #104069">Crear expedient nou</button>
           </div>
         </div>
       </div>

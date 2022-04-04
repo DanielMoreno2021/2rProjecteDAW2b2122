@@ -34,20 +34,20 @@
 
           <!-- Codi Login -->
           <div class="form-outline mb-2">
-          <label class="form-label" for="codi">Codigo</label>
+          <label class="form-label" for="codi">Codi</label>
             <input type="text" id="codi" name='codi' class="form-control form-control-lg" value="{{ old('codi')}}" required
               placeholder="Introduce tu Codigo" />
           </div>
 
           <!-- Contraseña Login -->
           <div class="form-outline mb-2">
-          <label class="form-label" for="contraseña">Contraseña</label>
+          <label class="form-label" for="contraseña">Contrasenya</label>
             <input type="password" id="contraseña" name="contraseña" class="form-control form-control-lg" value="{{ old('contraseña')}}" required
               placeholder="Introduce tu contraseña" />
           </div>
 
           <!-- Boton Login -->
-          <button type="submit" class="btn btn-danger" style="background-color: #104069; float: right;">Iniciar Sesión</button>
+          <button type="submit" class="btn btn-danger" style="background-color: #104069; float: right;">Iniciar Sessió</button>
         </form>
       </div>
     </div>

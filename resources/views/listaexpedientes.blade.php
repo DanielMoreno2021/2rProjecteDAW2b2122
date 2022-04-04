@@ -1,12 +1,12 @@
 @extends('plantillas.principal')
 
 @section('titulodecadapagina')
-    <title>Lista De Expedientes</title>
+    <title>Llista De Expedients</title>
 @endsection
 
 @section('botoncerrarsesion')
         <form>
-            <input type="button" class="btn btn-outline-dark" value="Volver Atrás" onclick="history.go(-1)">
+            <input type="button" class="btn btn-outline-dark" value="Tornar Enrere" onclick="history.go(-1)">
         </form>
 @endsection
 
@@ -23,15 +23,15 @@
     <div class="container" style="margin-top: 30px;">
         <form action="">
             <div class="row">
-                <label for="" class="col-1 col-form-label">Buscar Por:</label>
+                <label for="" class="col-1 col-form-label">Cercar Per:</label>
                 <div class="col-2 dropdown d-grid gap-2">
                     <select class="form-select" aria-label="Default select example">
                         <option></option>
-                        <option value="1">Código</option>
-                        <option value="2">Fecha de Creación</option>
-                        <option value="3">Fecha de Modificación</option>
-                        <option value="3">Usuario Última Modificación</option>
-                        <option value="3">Estado</option>
+                        <option value="1">Codi</option>
+                        <option value="2">Data de Creació</option>
+                        <option value="3">Data de Modificació</option>
+                        <option value="4">Usuari Ultima Modificació</option>
+                        <option value="5">Estat</option>
                     </select>
                 </div>
             </div>
@@ -40,12 +40,12 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <td>Código</td>
-                                    <td>Fecha de Creación</td>
-                                    <td>Fecha de Modificación</td>
-                                    <td>Usuario Última Modificación</td>
-                                    <td>Estado</td>
-                                    <td>Edición</td>
+                                    <td>Codi</td>
+                                    <td>Data de Creació</td>
+                                    <td>Data de Modificació</td>
+                                    <td>Usuari Ultima Modificació</td>
+                                    <td>Estat</td>
+                                    <td>Edició</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -57,8 +57,8 @@
                                     <td></td>
                                     <td>
                                         <div class="d-grid gap-2 d-md-block">
-                                            <button class="btn btn-info" type="button">Ver</button>
-                                            <button class="btn btn-success" type="button">Añadir</button>
+                                            <button class="btn btn-info" type="button">Veure</button>
+                                            <button class="btn btn-success" type="button">Afegir</button>
                                         </div>
                                     </td>
                                 </tr>

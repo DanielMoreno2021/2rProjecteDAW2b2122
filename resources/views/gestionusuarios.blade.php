@@ -1,13 +1,13 @@
 @extends('plantillas.principal')
 
 @section('titulodecadapagina')
-    <title>Gestion de Usuarios</title>
+    <title>Gestió de Usuaris</title>
 @endsection
 
 @section('botoncerrarsesion')
     <form class="d-flex" action="{{ action([App\Http\Controllers\UsuariController::class, 'logout']) }}"
         method="GET">
-        <button class="btn btn-outline-dark" type="submit">Cerrar Sesión <i class="fa fa-sign-out"></i></button>
+        <button class="btn btn-outline-dark" type="submit">Cerrar Sessió <i class="fa fa-sign-out"></i></button>
     </form>
 @endsection
 
@@ -23,20 +23,19 @@
 @section('contenido')
     <div class="container text-center" style="margin-top: 30px;">
         <button onclick="window.location.href='{{ url('gestionusuarios/create') }}'" class="btn btn-success"
-            type="button"><i class="fa-solid fa-plus"></i> Crear Usuario</button>
+            type="button"><i class="fa-solid fa-plus"></i> Crear Usuari</button>
     </div>
 
     <div class="container" style="margin-top: 30px;">
         <div class="row">
-            <table class="table table-bordered">
+            <table class="table table-bordered text-center">
                 <thead>
                     <tr>
                         <td>ID</td>
-                        <td>Código</td>
-                        <td>Nombre</td>
-                        <td>Apellidos</td>
-                        <td>Contraseña</td>
-                        <td>Edición</td>
+                        <td>Codi</td>
+                        <td>Nom</td>
+                        <td>Cognoms</td>
+                        <td>Edició</td>
                         <td>Rol</td>
                     </tr>
                 </thead>
@@ -47,7 +46,6 @@
                             <td>{{ $usuari->codi }}</td>
                             <td>{{ $usuari->nom }}</td>
                             <td>{{ $usuari->cognoms }}</td>
-                            <td>{{ $usuari->contrassenya }}</td>
                             <td>
                                 <form class="float-right"
                                     action="{{ action([App\Http\Controllers\UsuariController::class, 'edit'], ['gestionusuario' => $usuari->id]) }}"

@@ -6,7 +6,7 @@
 
 @section('botoncerrarsesion')
         <form>
-            <input type="button" class="btn btn-outline-dark" value="Volver Atrás" onclick="history.go(-1)">
+            <input type="button" class="btn btn-outline-dark" value="Tornar Enrere" onclick="history.go(-1)">
         </form>
 @endsection
 
@@ -25,28 +25,28 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Selecciona una opción</h5>
+          <h5 class="modal-title">Selecciona una opció</h5>
         </div>
         <div class="modal-body">
             <div class="row justify-content-evenly">
                 <div class="col-5 text-center">
-                <button id="opcion1" type="button" class="btn btn-primary">Me encuentro mal del estómago y quería pedir cita para el médico.</button>
+                <button id="opcion1" type="button" class="btn btn-primary">Em trobo malament de l'estómac i volia demanar cita per al metge.</button>
                 </div>
                 <div class="col-5 text-center">
-                <button id="opcion2" type="button" class="btn btn-primary">Soy Joseba García , del Hospital Don Miguel, necesitamos una ambulancia.</button>
+                <button id="opcion2" type="button" class="btn btn-primary">Sóc Joseba García, de l'Hospital Don Miguel, necessitem una ambulància.</button>
                 </div>
             </div>
             <div class="row my-5 justify-content-evenly">
                 <div class="col-5 text-center">
-                <button id="opcion3" type="button" class="btn btn-primary" >¿Llevamos un buen rato esperando la ambulancia, dónde están?</button>
+                <button id="opcion3" type="button" class="btn btn-primary">Fa una bona estona que esperem l'ambulància, on són?</button>
                 </div>
                 <div class="col-5 text-center">
-                <button id="opcion4" type="button" class="btn btn-primary">Ha habido un choque entre un bus y un coche, y el conductor no responde!</button>
+                <button id="opcion4" type="button" class="btn btn-primary">Hi ha hagut un xoc entre un bus i un cotxe, i el conductor no respon!</button>
                 </div>
             </div>
             <div class="row my-5 justify-content-center">
                 <div class="col-5 text-center">
-                <input type="button" class="btn btn-danger " value="Salir" onclick="history.go(-1)">
+                <input type="button" class="btn btn-danger" value="Sortir" onclick="history.go(-1)">
                 </div>
             </div>
         </div>
@@ -59,15 +59,15 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">Quieres escuchar otra respuesta?</h5>
+            <h5 class="modal-title">Vols escoltar una altra resposta?</h5>
         </div>
         <div class="modal-body">
             <div class="row justify-content-evenly">
                 <div class="col-5 text-center">
-                <button id="opcionSeguir" type="button" class="btn btn-primary">Sí, seguir.</button>
+                <button id="opcionSeguir" type="button" class="btn btn-primary">Si, seguir.</button>
                 </div>
                 <div class="col-5 text-center">
-                    <input type="button" class="btn btn-danger" value="No, quiero volver" onclick="history.go(-1)">
+                    <input type="button" class="btn btn-danger" value="No, vull tornar." onclick="history.go(-1)">
                 </div>
             </div>
         </div>
@@ -75,14 +75,27 @@
     </div>
 </div>
 <div style="text-align: center; margin-top: 10px;">
-        <button type="button btn-lg" class="btn btn-primary">Manual de Ayuda</button>
+        <button type="button btn-lg" class="btn btn-primary">Manual d'ajuda</button>
         <button type="button btn-lg" class="btn btn-danger">Examen</button>
 </div>
 <div style="text-align: center;">
-    <video width="50%" height="auto" controls="controls" poster="image" preload="true" id="videoAyuda">
+    <video width="50%" height="auto" poster="image" preload="true" id="medio">
       <source src="../resources/videos/Proyecto.mp4" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
+    <nav>
+		<input type="button" class="botonesvideo" id="reiniciar" value="Reiniciar">
+		<input type="button" class="botonesvideo" id="retrasar" value="&laquo;">
+		<input type="button" class="botonesvideo" id="play" value="&#9658;">
+		<input type="button" class="botonesvideo" id="adelantar" value="&raquo;">
+		<input type="button" class="botonesvideo" id="silenciar" value="Silenciar">
+		<input type="button" class="botonesvideo" id="dessilenciar" value="Activar Volumen">
+        <br><br>
+            Tiempo actual: <span id="tiempo"></span> || Tiempo total: <span id="tiempoTotal"></span>
+        <br>
+        <label id="timer" for="progress" role="timer"></label>
+        <progress id="progress" max="100" value="0">Progress</progress>
+    </nav>
 </div>
 
 

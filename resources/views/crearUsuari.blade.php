@@ -1,7 +1,7 @@
 @extends('plantillas.principal')
 
 @section('titulodecadapagina')
-    <title>Crear Usuario</title>
+    <title>Crear Usuari</title>
 @endsection
 
 @section('botoncerrarsesion')
@@ -24,14 +24,14 @@
         @csrf
         <div class="container" style="margin-top: 10px;">
             <div class="row">
-                <p class="col-12 fs-1">Crear Usuario</p>
+                <p class="col-12 fs-1">Crear Usuari</p>
             </div>
 
 
             <div class="mt-3 justify-content-between">
                 <div class="row">
 
-                    <label for="" class="col-2 col-form-label">Código</label>
+                    <label for="" class="col-2 col-form-label">Codi</label>
                     <div class="col-4">
                         <input type="text" class="form-control" id="codigo" name="codigo">
                     </div>
@@ -60,12 +60,12 @@
             <div class="mt-3 justify-content-between">
                 <div class="row">
 
-                    <label for="" class="col-2 col-form-label">Nombre</label>
+                    <label for="" class="col-2 col-form-label">Nom</label>
                     <div class="col-4">
                         <input type="text" class="form-control" id="nom" name="nom">
                     </div>
 
-                    <label for="" class="col-2 col-form-label">Apellidos</label>
+                    <label for="" class="col-2 col-form-label">Cognoms</label>
                     <div class="col-4">
                         <input type="text" class="form-control" id="cognoms" name="cognoms">
                     </div>
@@ -76,7 +76,7 @@
             <div class="mt-3 justify-content-evenly">
                 <div class="row">
 
-                    <label for="" class="col-2 col-form-label">Contraseña:</label>
+                    <label for="" class="col-2 col-form-label">Contrasenya</label>
                     <div class="col-5">
                         <input type="password" class="form-control" id="contrassenya" name="contrassenya">
                     </div>
@@ -106,7 +106,7 @@
                 <div class="row">
                     <div class="col-4 d-grid offset-md-8">
                         <button type="submit" class="btn btn-danger" style="background-color: #104069">Crear
-                            usuario</button>
+                            Usuari</button>
                     </div>
                 </div>
             </div>

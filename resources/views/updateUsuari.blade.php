@@ -27,14 +27,14 @@
         @method('PUT')
         <div class="container" style="margin-top: 10px;">
             <div class="row">
-                <p class="col-12 fs-1">Editar Usuario</p>
+                <p class="col-12 fs-1">Editar Usuari</p>
             </div>
 
 
             <div class="mt-3 justify-content-between">
                 <div class="row">
 
-                    <label for="" class="col-2 col-form-label">Código</label>
+                    <label for="" class="col-2 col-form-label">Codi</label>
                     <div class="col-4">
                         <input type="text" class="form-control" id="codigo" name="codigo"
                             value="{{ $gestionusuario->codi }}">
@@ -64,12 +64,12 @@
             <div class="mt-3 justify-content-between">
                 <div class="row">
 
-                    <label for="" class="col-2 col-form-label">Nombre</label>
+                    <label for="" class="col-2 col-form-label">Nom</label>
                     <div class="col-4">
                         <input type="text" class="form-control" id="nom" name="nom" value="{{ $gestionusuario->codi }}">
                     </div>
 
-                    <label for="" class=" col-2 col-form-label">Apellidos</label>
+                    <label for="" class=" col-2 col-form-label">Cognoms</label>
                     <div class="col-4">
                         <input type="text" class="form-control" id="cognoms" name="cognoms"
                             value="{{ $gestionusuario->cognoms }}">
@@ -81,7 +81,7 @@
             <div class="mt-3 justify-content-evenly">
                 <div class="row">
 
-                    <label for="" class="col-2 col-form-label">Contraseña:</label>
+                    <label for="" class="col-2 col-form-label">Contrasenya</label>
                     <div class="col-5">
                         <input type="password" class="form-control" id="contrassenya" name="contrassenya"
                             value="{{ $gestionusuario->contrassenya }}">
@@ -112,7 +112,7 @@
                 <div class="row">
                     <div class="col-4 d-grid offset-md-8">
                         <button type="submit" class="btn btn-danger" style="background-color: #104069">Editar
-                            usuario</button>
+                            Usuari</button>
                     </div>
                 </div>
             </div>
