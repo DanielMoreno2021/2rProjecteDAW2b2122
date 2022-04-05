@@ -2,12 +2,15 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\IncidentsController;
-use App\Http\Controllers\Api\TipusIncidentController;
-use App\Http\Controllers\Api\CartesTrucadesController;
+use App\Http\Resources\AgenciasResource;
+use App\Http\Controllers\Api\AgenciasController;
+use App\Http\Controllers\Api\AgenciesController;
 use App\Http\Controllers\Api\ComarquesController;
+use App\Http\Controllers\Api\IncidentsController;
 use App\Http\Controllers\Api\MunicipisController;
 use App\Http\Controllers\Api\ProvinciesController;
+use App\Http\Controllers\Api\TipusIncidentController;
+use App\Http\Controllers\Api\CartesTrucadesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +27,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
+Route::apiResource('Agencies', AgenciesController::class);
 Route::apiResource('cartestrucades', CartesTrucadesController::class);
 Route::apiResource('tipusincidents', TipusIncidentController::class);
 Route::apiResource('incidents', IncidentsController::class);

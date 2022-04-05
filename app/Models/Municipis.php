@@ -11,7 +11,7 @@ class Municipis extends Model
     protected $table = 'municipis';
     protected $primarykey = 'id';
     public $incrementing = true;
-    public $timestamps = true;
+    public $timestamps = false;
 
     public function comarques(){
         return $this->hasOne(Comarques::class);

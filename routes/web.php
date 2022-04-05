@@ -23,6 +23,9 @@ Route::get('/logout', [UsuariController::class, 'logout']);
 Route::get('/', function () {
     return view('login');
 });
+Route::get('/mapa', function () {
+    return view('mapa');
+});
 
 Route::get('operador', function () {
     return view('operador');
