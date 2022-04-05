@@ -5,8 +5,8 @@
 @endsection
 
 @section('botoncerrarsesion')
-    <form class="d-flex">
-        <button class="btn btn-outline-dark" type="submit">Cancelar Carta</button>
+    <form>
+        <input type="button" class="btn btn-outline-dark" value="Cancelar Usuari" onclick="history.go(-1)">
     </form>
 @endsection
 
@@ -20,11 +20,13 @@
 @endsection
 
 @section('contenido')
+    <h1 class="text-center" style="margin-top: 10px;">Crear Usuari</h1>
+
     <form action="{{ action([App\Http\Controllers\UsuariController::class, 'store']) }}" method="POST">
         @csrf
-        <div class="container" style="margin-top: 10px;">
+        <div class="container" style="margin-top: 80px;">
             <div class="row">
-                <p class="col-12 fs-1">Crear Usuari</p>
+
             </div>
 
 
@@ -33,7 +35,7 @@
 
                     <label for="" class="col-2 col-form-label">Codi</label>
                     <div class="col-4">
-                        <input type="text" class="form-control" id="codigo" name="codigo">
+                        <input type="text" class="form-control" id="codigo" name="codigo" required>
                     </div>
 
 
@@ -62,54 +64,34 @@
 
                     <label for="" class="col-2 col-form-label">Nom</label>
                     <div class="col-4">
-                        <input type="text" class="form-control" id="nom" name="nom">
+                        <input type="text" class="form-control" id="nom" name="nom" required>
                     </div>
 
                     <label for="" class="col-2 col-form-label">Cognoms</label>
                     <div class="col-4">
-                        <input type="text" class="form-control" id="cognoms" name="cognoms">
+                        <input type="text" class="form-control" id="cognoms" name="cognoms" required>
                     </div>
 
                 </div>
             </div>
 
-            <div class="mt-3 justify-content-evenly">
+            <div class="mt-3 justify-content-between">
                 <div class="row">
 
                     <label for="" class="col-2 col-form-label">Contrasenya</label>
-                    <div class="col-5">
-                        <input type="password" class="form-control" id="contrassenya" name="contrassenya">
+                    <div class="col-4">
+                        <input type="password" class="form-control" id="contrassenya" name="contrassenya" required>
                     </div>
 
-                    {{-- <label class="col-2 form-check-label" for="defaultCheck1">
-                Fuera de Catalunya
-            </label> --}}
-
-
-                </div>
-            </div>
-            {{-- <div class="mt-3 justify-content-evenly">
-                <div class="row">
-
-                    <label for="" class="col-2 col-form-label">Confirmar Contraseña:</label>
-                    <div class="col-5">
-                        <input type="password" class="form-control" id="contrassenya" name="contrassenya">
-                    </div>
-
-                    {{-- <label class="col-2 form-check-label" for="defaultCheck1">
-                Fuera de Catalunya
-            </label> --}}
-            {{-- </div>
-            </div> --}}
-
-            <div class="mt-3 justify-content-center mt-4">
-                <div class="row">
-                    <div class="col-4 d-grid offset-md-8">
+                    <label for="" class="col-2 col-form-label"></label>
+                    <div class="col-4 d-grid">
                         <button type="submit" class="btn btn-danger" style="background-color: #104069">Crear
                             Usuari</button>
                     </div>
+
                 </div>
             </div>
+
         </div>
         </div>
     </form>

@@ -60,7 +60,7 @@ class UsuariController extends Controller
      */
     public function index()
     {
-        $usuaris = Usuari::all();
+        $usuaris = Usuari::paginate(5);
         return view('gestionusuarios', compact('usuaris'));
     }
 
