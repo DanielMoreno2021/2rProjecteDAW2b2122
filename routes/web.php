@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartesTrucadesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuariController;
 use App\Http\Controllers\TipusIncidentController;
@@ -49,7 +50,7 @@ Route::get('listaexpedientes', function () {
 });
 
 
-
-Route::resource('cartallamada', IncidentsController::class);
+Route::resource('cartallamada', CartesTrucadesController::class);
+// Route::resource('cartallamada', IncidentsController::class);
 
 Route::resource('gestionusuarios', UsuariController::class);

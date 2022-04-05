@@ -15,6 +15,10 @@ class CartesTrucadesController extends Controller
      */
     public function index()
     {
+
+        /* $incidents = Incidents::all();
+        $tipusincidents = TipusIncident::all(); */
+        return view('cartallamada_vue');
         //
     }
 
