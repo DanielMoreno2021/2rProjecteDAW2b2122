@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CartesTrucades;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CartesTrucadesResource;
+use Illuminate\Database\QueryException;
 
 class CartesTrucadesController extends Controller
 {
@@ -32,38 +33,41 @@ class CartesTrucadesController extends Controller
     {
         $cartesTrucades = new CartesTrucades();
 
-        $cartesTrucades->codi_trucada = $request->input('codiTrucada');
-        $cartesTrucades->data_hora = date('Y-m-d H:i:s');
+        $cartesTrucades->codi_trucada = $request->input('codi_trucada');
+
+        $cartesTrucades->data_hora = $request->input('data_hora');
         //Falta por completar.
-        $cartesTrucades->data_hora = date('H:i:s');
-        //
-        $cartesTrucades->dades_personals_id = $request->input('dadesPersonalsID');
+        $cartesTrucades->dades_personals_id = $request->input('dades_personals_id');
         $cartesTrucades->telefon = $request->input('telefon');
-        $cartesTrucades->procedencia_trucada = $request->input('procedenciaTrucada');
-        $cartesTrucades->origen_trucada = $request->input('origenTrucada');
-        $cartesTrucades->nom_trucada = $request->input('nomTrucada');
-        $cartesTrucades->municipis_id_trucada = $request->input('municipisIDTrucada');
-        $cartesTrucades->adreca_trucada = $request->input('adreçaTrucada');
-        $cartesTrucades->fora_catalunya = $request->input('foraCatalunya');
-        $cartesTrucades->provincies_id = $request->input('provinciesID');
-        $cartesTrucades->municipis_id = $request->input('municipisID');
-        $cartesTrucades->tipus_localitzacions_id = $request->input('tipusLocalitzacionsID');
-        $cartesTrucades->descripcio_localitzacio = $request->input('descripcioLocalitzacio');
-        $cartesTrucades->detall_localitzacio = $request->input('detallLocalitzacio');
-        $cartesTrucades->altres_ref_localitzacio = $request->input('altresRefLocalitzacio');
-        $cartesTrucades->incidents_id = $request->input('incidentsID');
-        $cartesTrucades->nota_comuna = $request->input('notaComuna');
-        $cartesTrucades->expedients_id = $request->input('expedientsID');
-        $cartesTrucades->usuaris_id = $request->input('usuarisID');
+        $cartesTrucades->procedencia_trucada = $request->input('procedencia_trucada');
+        $cartesTrucades->origen_trucada = $request->input('origen_trucada');
+        $cartesTrucades->nom_trucada = $request->input('nom_trucada');
+        $cartesTrucades->municipis_id_trucada = $request->input('municipis_id_trucada');
+        $cartesTrucades->adreca_trucada = $request->input('adreca_trucada');
+        $cartesTrucades->fora_catalunya = $request->input('fora_catalunya');
+        $cartesTrucades->provincies_id = $request->input('provincies_id');
+        $cartesTrucades->municipis_id = $request->input('municipis_id');
+        $cartesTrucades->tipus_localitzacions_id = $request->input('tipus_localitzacions_id');
+        $cartesTrucades->descripcio_localitzacio = $request->input('descripcio_localitzacio');
+        $cartesTrucades->detall_localitzacio = $request->input('detall_localitzacio');
+        $cartesTrucades->altres_ref_localitzacio = $request->input('altres_ref_localitzacio');
+        $cartesTrucades->incidents_id = $request->input('incidents_id');
+        $cartesTrucades->nota_comuna = $request->input('nota_comuna');
+        $cartesTrucades->expedients_id = $request->input('expedients_id');
+        $cartesTrucades->usuaris_id = $request->input('usuaris_id');
 
         //CRUD APIs, 2:34, preguntar por try catch y control de errores
-        $cartesTrucades->save();
+        try{
 
+            $cartesTrucades->save();
+            $response = (new CartesTrucadesResource($cartesTrucades))->response()->setStatusCode(201);
+        }
+        catch(QueryException $ex)
+        {
+            $response = \response()->json(['error' => "Error. "], 400);
+        }
 
-
-
-
-
+        return $response;
 
 
 

@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Expedients;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Database\QueryException;
+use App\Http\Resources\ExpedientsResource;
 
 class ExpedientsController extends Controller
 {
@@ -14,18 +17,9 @@ class ExpedientsController extends Controller
      */
     public function index()
     {
-        return view('listaexpedientes_vue');
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $expedients = Expedients::all();
+        return ExpedientsResource::collection($expedients);
     }
 
     /**
@@ -36,7 +30,24 @@ class ExpedientsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $expedients = new Expedients();
+
+
+        $expedients->data_creacio = $request->input('data_creacio');
+        $expedients->data_ultima_modificacio = $request->input('data_ultima_modificacio');
+        $expedients->estats_expedients_id = $request->input('estats_expedients_id');
+
+        try{
+
+            $expedients->save();
+            $response = (new ExpedientsResource($expedients))->response()->setStatusCode(201);
+        }
+        catch(QueryException $ex)
+        {
+            $response = \response()->json(['error' => "Error. "], 400);
+        }
+
+        return $response;
     }
 
     /**
@@ -46,17 +57,6 @@ class ExpedientsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Expedients $expedients)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Expedients  $expedients
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Expedients $expedients)
     {
         //
     }

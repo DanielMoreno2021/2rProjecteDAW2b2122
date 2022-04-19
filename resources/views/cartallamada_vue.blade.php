@@ -22,7 +22,8 @@
 
 @section('contenido')
 <div class="container cartallamada" id="app">
-    <cartes-trucades-component></cartes-trucades-component>
+
+    <cartes-trucades-component :usuari="{{Auth::user()->id}}"></cartes-trucades-component>
 </div>
 @endsection
 
