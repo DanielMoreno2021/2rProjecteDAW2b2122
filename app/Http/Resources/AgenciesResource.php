@@ -21,7 +21,6 @@ class AgenciesResource extends JsonResource
             "Municipio" => $this->municipis_id,
             // "Municipio" => MunicipisResource::collection($this->municipis_id),
             "Codigo Postal" => $this->codi_postal
-
         ];
     }
 }
