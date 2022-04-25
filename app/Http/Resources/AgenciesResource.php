@@ -14,13 +14,14 @@ class AgenciesResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            "id" => $this->id,
-            "nombre" => $this->nom,
-            "calle" => $this->carrer,
-            "Municipio" => $this->municipis_id,
-            // "Municipio" => MunicipisResource::collection($this->municipis_id),
-            "Codigo Postal" => $this->codi_postal
-        ];
+        // return [
+        //     "id" => $this->id,
+        //     "nombre" => $this->nom,
+        //     "calle" => $this->carrer,
+        //     "Municipio" => $this->municipis_id,
+        //     // "Municipio" => MunicipisResource::collection($this->municipis_id),
+        //     "Codigo Postal" => $this->codi_postal
+        // ];
+        return parent::toArray($request);
     }
 }

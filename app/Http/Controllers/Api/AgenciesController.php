@@ -16,7 +16,7 @@ class AgenciesController extends Controller
      */
     public function index()
     {
-        $agencies = Agencies::all();
+        $agencies = Agencies::with("municipis")->get();
 
         return AgenciesResource::collection($agencies);
     }

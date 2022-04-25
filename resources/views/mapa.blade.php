@@ -1,4 +1,3 @@
-Mapa prueba
 <!DOCTYPE html>
 <html>
 
@@ -29,13 +28,11 @@ Mapa prueba
             padding: 10px;
             font-family: 'Open Sans', sans-serif;
         }
-
     </style>
 </head>
 
 <body>
     <div id="map"></div>
-
     <div id="menu">
         <input id="satellite-v9" type="radio" name="rtoggle" value="satellite">
         <label for="satellite-v9">Satelite</label>
@@ -51,55 +48,68 @@ Mapa prueba
     
     <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
     <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v1.0.0/mapbox-gl-language.js'></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <!-- <script src="../resources/js/app.js"></script> -->
     
     <script>
+        var markers = []
+
         let agencies;
-         axios
+        axios
             .get('http://localhost/2rProjecteDAW2b2122/public/api/Agencies')
             .then(response => {
                 agencies = response.data;
             })
-            .catch(error => {
-        })
-        .finally(function() {
-            console.log(agencies);
-             //mapa
-        mapboxgl.accessToken = 'pk.eyJ1IjoiZGFucmVpbmEiLCJhIjoiY2wxa2gwMzB1MDAzYzNjcnZ2bGV2djVxcSJ9.I8gWSrktEj5MWgxUAfOc2w';
-        const mapboxClient = mapboxSdk({
-            accessToken: mapboxgl.accessToken
-        });
-
-        mapboxClient.geocoding
-            .forwardGeocode({
-                query: 'Caldes de Montbui, Barcelona',
-                autocomplete: false,
-                limit: 1
-            })
-            .send()
-            .then((response) => {
-                if (
-                    !response ||
-                    !response.body ||
-                    !response.body.features ||
-                    !response.body.features.length
-                ) {
-                    console.error('Invalid response:');
-                    console.error(response);
-                    return;
-                }
-                const feature = response.body.features[0];
-
+            .catch(error => {})
+            .finally(function() {
+                console.log(agencies);
+                //mapa
+                mapboxgl.accessToken =
+                    'pk.eyJ1IjoiZGFucmVpbmEiLCJhIjoiY2wxa2gwMzB1MDAzYzNjcnZ2bGV2djVxcSJ9.I8gWSrktEj5MWgxUAfOc2w';
+                const mapboxClient = mapboxSdk({
+                    accessToken: mapboxgl.accessToken
+                });
                 const map = new mapboxgl.Map({
                     container: 'map',
                     style: 'mapbox://styles/mapbox/streets-v11',
-                    center: feature.center,
+                    center: [2.1366094151360113, 41.41725955343567],
                     zoom: 10
                 });
+                for (let i in agencies) {
+                    mapboxClient.geocoding
+                        .forwardGeocode({
+                            query: agencies[i].carrer + " ,"  + agencies[i].municipis.nom,
+                            autocomplete: false,
+                            limit: 1
+                        })
+                        .send()
+                        .then((response) => {
+                            if (
+                                !response ||
+                                !response.body ||
+                                !response.body.features ||
+                                !response.body.features.length
+                            ) {
+                                console.error('Invalid response:');
+                                console.error(response);
+                                return;
+                            }
+                            const feature = response.body.features[0];
 
-                // Create a marker and add it to the map.
-                new mapboxgl.Marker().setLngLat(feature.center).addTo(map);
+
+
+                            // Create a marker and add it to the map.
+                            new mapboxgl.Marker(markers[i]).setLngLat(feature.center)
+                            .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+                            .setHTML(agencies[i].carrer))
+                            .addTo(map);
+            })
+            }
+                
+                // PONER EL MAPA EN ESPAÑOL DE ESPAÑA
+                // const language = new MapboxLanguage();
+                // map.addControl(language);
 
                 const layerList = document.getElementById('menu');
                 const inputs = layerList.getElementsByTagName('input');
@@ -123,8 +133,8 @@ Mapa prueba
 
                 // Add zoom and rotation controls to the map.
                 map.addControl(new mapboxgl.NavigationControl());
-            });
-        })
+
+            })
     </script>
 </body>
 
