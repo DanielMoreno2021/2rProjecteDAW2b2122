@@ -5473,94 +5473,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     usuari: {
@@ -5596,7 +5508,6 @@ __webpack_require__.r(__webpack_exports__);
         expedients_id: "",
         usuaris_id: ""
       },
-      //PARA CREAR EXPEDIENTE NUEVO
       expedients: {
         id: "",
         data_creacio: "",
@@ -5607,29 +5518,17 @@ __webpack_require__.r(__webpack_exports__);
         id: "",
         telefon: "",
         adreca: "",
-        nom: "",
         antecedents: ""
       },
-      //PARA RECOGER LA LISTA DE EXPEDIENTES
       expedientsLlista: [],
-      dadesPersonalsLlista: [],
       tipusincidents: [],
+      incidents: [],
       provincies: [],
+      comarques: [],
       municipis: [],
       cartaTrucada_incidents_id: "",
       cartaTrucada_provincies_id: "",
-      posicio_provincia_id: "0",
-      posicio_previa: "0",
-      primera_vegada: true,
-      posicio_comarca_id: "0",
-      posicio_incident_id: "0",
-      cartaTrucada_municipis_id: "",
-      cartaTrucada_comarques_id: "",
-      cartaTrucada_telefon: "",
-      cartaTrucada_adreca_trucada: "",
-      cartaTrucada_nom_trucada: "",
-      cartaTrucada_fora_catalunya: false,
-      popUpError: false
+      cartaTrucada_municipis_id: ""
     };
   },
   created: function created() {
@@ -5643,8 +5542,22 @@ __webpack_require__.r(__webpack_exports__);
     })["finally"](function () {
       return _this.loading = false;
     });
+    axios.get('/incidents').then(function (response) {
+      me.incidents = response.data;
+    })["catch"](function (error) {
+      console.log(error);
+    })["finally"](function () {
+      return _this.loading = false;
+    });
     axios.get('/provincies').then(function (response) {
       me.provincies = response.data;
+    })["catch"](function (error) {
+      console.log(error);
+    })["finally"](function () {
+      return _this.loading = false;
+    });
+    axios.get('/comarques').then(function (response) {
+      me.comarques = response.data;
     })["catch"](function (error) {
       console.log(error);
     })["finally"](function () {
@@ -5664,13 +5577,6 @@ __webpack_require__.r(__webpack_exports__);
     })["finally"](function () {
       return _this.loading = false;
     });
-    axios.get('/dadespersonals').then(function (response) {
-      me.dadesPersonalsLlista = response.data;
-    })["catch"](function (error) {
-      console.log(error);
-    })["finally"](function () {
-      return _this.loading = false;
-    });
   },
   methods: {
     currentTime: function currentTime() {
@@ -5684,7 +5590,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     currentDay: function currentDay() {
       var current = new Date();
-      var time = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getUTCDate() + " " + current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
+      var time = current.getFullYear() + "-" + current.getMonth() + "-" + current.getDay() + " " + current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
       return time;
     },
     actualitzarTempsTrucada: function actualitzarTempsTrucada() {
@@ -5697,43 +5603,23 @@ __webpack_require__.r(__webpack_exports__);
       return horaComparada + minutoComparado + segundoComparado;
     },
     actualitzarIncidents: function actualitzarIncidents() {
+      var _this2 = this;
+
       //AQUÍ NECESITARIAMOS PASARLE LA ID DEL TIPO DE INCIDENTE COMO PARÁMETRO, Y EN EL CONTROLLER QUE BUSQUE POR TAL EN VEZ DE SER ALEATORIO.
       var me = this;
-      me.posicio_incident_id = this.$el.querySelector("#tipusIncident").selectedIndex;
-      me.cartaTrucada_incidents_id = "";
+      axios.get('/incidents').then(function (response) {
+        me.incidents = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+      })["finally"](function () {
+        return _this2.loading = false;
+      });
     },
-    actualitzarComarques: function actualitzarComarques() {
-      var me = this;
-      me.posicio_provincia_id = this.$el.querySelector("#provincia").selectedIndex;
-      me.cartaTrucada_comarques_id = "";
-      me.cartaTrucada_municipis_id = "";
-      document.getElementById("comarca").disabled = false;
-      document.getElementById("municipi").disabled = true;
-    },
-    actualitzarMunicipis: function actualitzarMunicipis() {
-      var me = this;
-
-      if (me.posicio_provincia_id == me.posicio_previa) {
-        document.getElementById("municipi").disabled = false;
-        me.posicio_comarca_id = this.$el.querySelector("#comarca").selectedIndex;
-      } else if (me.primera_vegada) {
-        document.getElementById("municipi").disabled = false;
-        me.posicio_comarca_id = this.$el.querySelector("#comarca").selectedIndex;
-        me.primera_vegada = false;
-      } else {
-        document.getElementById("municipi").disabled = true;
-        me.posicio_comarca_id = "0";
-      }
-
-      me.posicio_previa = me.posicio_provincia_id;
-      me.cartaTrucada_municipis_id = "";
-    },
+    actualizarComarques: function actualizarComarques() {},
     insertCartaTrucadaExpedientNou: function insertCartaTrucadaExpedientNou() {
       var me = this;
-      me.actualitzarHora();
-      debugger;
       me.crearExpedientNou();
-      me.cartaTrucada.expedients_id = me.expedients.id;
+      me.actualitzarHora();
       me.crearCartaTrucada();
     },
     actualitzarHora: function actualitzarHora() {
@@ -5745,114 +5631,66 @@ __webpack_require__.r(__webpack_exports__);
       me.cartaTrucada.data_hora = this.currentDay();
     },
     afegirCartaTrucadaAExpedient: function afegirCartaTrucadaAExpedient() {
-      var _this2 = this;
-
-      var me = this;
-      axios.post('/2rProjecteDAW2b2122/public/api/cartestrucades', me.cartaTrucada).then(function (response) {
-        console.log(response);
-        history.go(-1);
-      })["catch"](function (error) {
-        console.log(error.response.data.error);
-        var modalAlertants = new bootstrap.Modal(document.getElementById('modalError'), {
-          keyboard: false
-        });
-        document.getElementById("mensajeError").innerHTML = error.response.data.error;
-        modalAlertants.toggle();
-      })["finally"](function () {
-        return _this2.loading = false;
-      });
-    },
-    crearExpedientNou: function crearExpedientNou() {
       var _this3 = this;
 
       var me = this;
-      axios.post('/2rProjecteDAW2b2122/public/api/expedients', me.expedients).then(function (response) {
-        me.expedients = response.data;
+      me.actualitzarHora();
+      axios.post('/cartestrucades', me.cartaTrucada).then(function (response) {
+        console.log(response);
+        history.go(-1);
       })["catch"](function (error) {
-        console.log(error.response.data.error);
-        var modalAlertants = new bootstrap.Modal(document.getElementById('modalError'), {
-          keyboard: false
-        });
-        document.getElementById("mensajeError").innerHTML = error.response.data.error;
-        modalAlertants.toggle();
+        console.log(error);
       })["finally"](function () {
         return _this3.loading = false;
       });
+    },
+    crearExpedientNou: function crearExpedientNou() {
+      var me = this;
+      axios.post('/expedients', me.expedients).then(function (response) {
+        me.expedients = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+      })["finally"](function () {
+        me.cartaTrucada.expedients_id = me.expedients.id;
+      });
+      me.crearCartaTrucada();
     },
     crearCartaTrucada: function crearCartaTrucada() {
       var _this4 = this;
 
       var me = this;
-      axios.post('/2rProjecteDAW2b2122/public/api/cartestrucades', me.cartaTrucada).then(function (response) {
+      axios.post('/cartestrucades', me.cartaTrucada).then(function (response) {
         console.log(response);
         history.go(-1);
       })["catch"](function (error) {
-        /*
-         let modalAlertants = new bootstrap.Modal(document.getElementById('modalError'), {
-            keyboard: false
-        });
-         document.getElementById("mensajeError").innerHTML = error.response.data.error;
-          modalAlertants.toggle(); */
+        console.log(error);
       })["finally"](function () {
         return _this4.loading = false;
       });
     },
     insertDadesPersonals: function insertDadesPersonals() {
-      var _this5 = this;
+      var me = this; //LOS DATOS HAN DE ESTAR RELLENADOS PARA QUE FUNCIONE BIEN!
 
-      var me = this;
       me.dadesPersonals.telefon = me.cartaTrucada.telefon;
       me.dadesPersonals.adreca = me.cartaTrucada.adreca_trucada;
-      me.dadesPersonals.nom = me.cartaTrucada.nom_trucada;
       me.dadesPersonals.antecedents = "Cap Antecedent";
       axios.post('/dadespersonals', me.dadesPersonals).then(function (response) {
         me.dadesPersonals = response.data;
-        me.cartaTrucada.dades_personals_id = me.dadesPersonals.id;
-        var modalAlertants = new bootstrap.Modal(document.getElementById('modalError'), {
-          keyboard: false
-        });
-        document.getElementById("mensajeError").innerHTML = "Registre de alertant completat!";
-        document.getElementById("modalErrorLabel").innerHTML = "Correcte";
-        modalAlertants.toggle();
       })["catch"](function (error) {
-        console.log(error.response.data.error);
-        var modalAlertants = new bootstrap.Modal(document.getElementById('modalError'), {
-          keyboard: false
-        });
-        document.getElementById("mensajeError").innerHTML = error.response.data.error;
-        modalAlertants.toggle();
+        console.log(error);
       })["finally"](function () {
-        return _this5.loading = false;
+        me.cartaTrucada.dades_personals_id = me.dadesPersonals.id;
       });
-    },
-    insertAlertantsAntecedents: function insertAlertantsAntecedents(alertant) {
-      var me = this;
-      me.cartaTrucada_telefon = alertant.telefon;
-      me.cartaTrucada_adreca_trucada = alertant.adreca;
-      me.cartaTrucada_nom_trucada = alertant.nom;
-      me.cartaTrucada.dades_personals_id = alertant.id;
     },
     escollirExpedient: function escollirExpedient(id) {
       var me = this;
       me.cartaTrucada.expedients_id = id;
-      me.actualitzarHora();
-      me.crearCartaTrucada();
-    },
-    //No se puede acceder desde el watch
-    comprobarUsuari: function comprobarUsuari() {
-      if (this.cartaTrucada.nom_trucada != "" && this.cartaTrucada.codi_trucada != "" && this.cartaTrucada.telefon != "") {
-        document.getElementById("buscarAntecedents").classList.add("d-none");
-        document.getElementById("registrarPersona").classList.remove("d-none");
-      } else {
-        document.getElementById("buscarAntecedents").classList.remove("d-none");
-        document.getElementById("registrarPersona").classList.add("d-none");
-      }
+      me.afegirCartaTrucadaAExpedient();
     }
   },
   watch: {
-    //Recoge los datos que haya introducido el usuario.
     cartaTrucada_incidents_id: function cartaTrucada_incidents_id(val) {
-      this.cartaTrucada.incidents_id = this.tipusincidents.find(function (valor) {
+      this.cartaTrucada.incidents_id = this.incidents.find(function (valor) {
         return valor.id == val;
       });
       this.cartaTrucada.incidents_id = val;
@@ -5867,7 +5705,7 @@ __webpack_require__.r(__webpack_exports__);
       this.cartaTrucada.provincies_id = val;
     },
     idProvinciaBuscar: function idProvinciaBuscar(val) {
-      this.provincies_id = val;
+      this.incidents_id = val;
     },
     cartaTrucada_municipis_id: function cartaTrucada_municipis_id(val) {
       this.cartaTrucada.municipis_id = this.municipis.find(function (valor) {
@@ -5882,59 +5720,6 @@ __webpack_require__.r(__webpack_exports__);
     idMunicipiBuscar: function idMunicipiBuscar(val) {
       this.municipis_id = val;
       this.municipis_id_trucada = val;
-    },
-    //Al introducir datos de la carta de Trucada, si se introducen todos los datos,
-    //se dará la opción de registrar en vez de la de seleccionar un antecedente.
-    cartaTrucada_telefon: function cartaTrucada_telefon(val) {
-      this.cartaTrucada.telefon = val; //comprobarUsuari();
-
-      if (this.cartaTrucada.nom_trucada != "" && this.cartaTrucada.adreca_trucada != "" && this.cartaTrucada.telefon != "") {
-        document.getElementById("buscarAntecedents").classList.add("d-none");
-        document.getElementById("registrarPersona").classList.remove("d-none");
-      } else {
-        document.getElementById("buscarAntecedents").classList.remove("d-none");
-        document.getElementById("registrarPersona").classList.add("d-none");
-      }
-    },
-    cartaTrucada_nom_trucada: function cartaTrucada_nom_trucada(val) {
-      this.cartaTrucada.nom_trucada = val;
-
-      if (this.cartaTrucada.nom_trucada != "" && this.cartaTrucada.adreca_trucada != "" && this.cartaTrucada.telefon != "") {
-        document.getElementById("buscarAntecedents").classList.add("d-none");
-        document.getElementById("registrarPersona").classList.remove("d-none");
-      } else {
-        document.getElementById("buscarAntecedents").classList.remove("d-none");
-        document.getElementById("registrarPersona").classList.add("d-none");
-      } //comprobarUsuari();
-
-    },
-    cartaTrucada_adreca_trucada: function cartaTrucada_adreca_trucada(val) {
-      this.cartaTrucada.adreca_trucada = val;
-
-      if (this.cartaTrucada.nom_trucada != "" && this.cartaTrucada.adreca_trucada != "" && this.cartaTrucada.telefon != "") {
-        document.getElementById("buscarAntecedents").classList.add("d-none");
-        document.getElementById("registrarPersona").classList.remove("d-none");
-      } else {
-        document.getElementById("buscarAntecedents").classList.remove("d-none");
-        document.getElementById("registrarPersona").classList.add("d-none");
-      } //comprobarUsuari();
-
-    },
-    //INCOMPLETO,ESTO ES PARA CUANDO SE PRESIONE EL BOTÓN DE FUERA DE CATALUÑA, SE SUPRIMAN LAS OPCIONES DE PROVINCIA, COMARCA Y MUNICIPIO
-    cartaTrucada_fora_catalunya: function cartaTrucada_fora_catalunya(val) {
-      this.cartaTrucada.fora_catalunya = val;
-
-      if (this.cartaTrucada.fora_catalunya) {
-        this.cartaTrucada_provincies_id = "";
-        this.cartaTrucada_comarques_id = "";
-        this.cartaTrucada_municipis_id = "";
-        this.primera_vegada = true;
-        document.getElementById("provincia").disabled = true;
-        document.getElementById("comarca").disabled = true;
-        document.getElementById("municipi").disabled = true;
-      } else {
-        document.getElementById("provincia").disabled = false;
-      }
     }
   },
   mounted: function mounted() {
@@ -6041,47 +5826,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      expedients: [],
-      expedient: {},
-      valor_inicial: "1"
+      expedients: []
     };
   },
   created: function created() {
@@ -6095,21 +5843,6 @@ __webpack_require__.r(__webpack_exports__);
     })["finally"](function () {
       return _this.loading = false;
     });
-  },
-  methods: {
-    mostrarExpedient: function mostrarExpedient(id) {
-      var me = this;
-      axios.get('/expedients/' + id).then(function (response) {
-        me.expedient = response.data;
-      })["catch"](function (error) {
-        console.log(error);
-      })["finally"](function () {
-        var modalObrirCartesTrucades = new bootstrap.Modal(document.getElementById('modalCartesTrucades'), {
-          keyboard: false
-        });
-        modalObrirCartesTrucades.toggle();
-      });
-    }
   },
   mounted: function mounted() {
     console.log('Component mounted.');
@@ -28908,11 +28641,7 @@ var render = function () {
               "select",
               {
                 staticClass: "form-select",
-                attrs: {
-                  id: "tipusIncident",
-                  name: "tipusIncident",
-                  "aria-label": "Default select example",
-                },
+                attrs: { "aria-label": "Default select example" },
                 on: {
                   change: function ($event) {
                     return _vm.actualitzarIncidents()
@@ -28976,16 +28705,13 @@ var render = function () {
                   },
                 },
               },
-              _vm._l(
-                _vm.tipusincidents[_vm.posicio_incident_id].incidents,
-                function (incident) {
-                  return _c(
-                    "option",
-                    { key: incident.id, domProps: { value: incident.id } },
-                    [_vm._v(" " + _vm._s(incident.descripcio))]
-                  )
-                }
-              ),
+              _vm._l(_vm.incidents, function (incident) {
+                return _c(
+                  "option",
+                  { key: incident.id, domProps: { value: incident.id } },
+                  [_vm._v(" " + _vm._s(incident.descripcio))]
+                )
+              }),
               0
             ),
           ]),
@@ -29045,20 +28771,20 @@ var render = function () {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.cartaTrucada_fora_catalunya,
-                    expression: "cartaTrucada_fora_catalunya",
+                    value: _vm.cartaTrucada.fora_catalunya,
+                    expression: "cartaTrucada.fora_catalunya",
                   },
                 ],
                 staticClass: "form-check-input",
                 attrs: { type: "checkbox", id: "flexCheckDefault" },
                 domProps: {
-                  checked: Array.isArray(_vm.cartaTrucada_fora_catalunya)
-                    ? _vm._i(_vm.cartaTrucada_fora_catalunya, null) > -1
-                    : _vm.cartaTrucada_fora_catalunya,
+                  checked: Array.isArray(_vm.cartaTrucada.fora_catalunya)
+                    ? _vm._i(_vm.cartaTrucada.fora_catalunya, null) > -1
+                    : _vm.cartaTrucada.fora_catalunya,
                 },
                 on: {
                   change: function ($event) {
-                    var $$a = _vm.cartaTrucada_fora_catalunya,
+                    var $$a = _vm.cartaTrucada.fora_catalunya,
                       $$el = $event.target,
                       $$c = $$el.checked ? true : false
                     if (Array.isArray($$a)) {
@@ -29066,15 +28792,21 @@ var render = function () {
                         $$i = _vm._i($$a, $$v)
                       if ($$el.checked) {
                         $$i < 0 &&
-                          (_vm.cartaTrucada_fora_catalunya = $$a.concat([$$v]))
+                          _vm.$set(
+                            _vm.cartaTrucada,
+                            "fora_catalunya",
+                            $$a.concat([$$v])
+                          )
                       } else {
                         $$i > -1 &&
-                          (_vm.cartaTrucada_fora_catalunya = $$a
-                            .slice(0, $$i)
-                            .concat($$a.slice($$i + 1)))
+                          _vm.$set(
+                            _vm.cartaTrucada,
+                            "fora_catalunya",
+                            $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                          )
                       }
                     } else {
-                      _vm.cartaTrucada_fora_catalunya = $$c
+                      _vm.$set(_vm.cartaTrucada, "fora_catalunya", $$c)
                     }
                   },
                 },
@@ -29131,24 +28863,19 @@ var render = function () {
                     "aria-label": "Default select example",
                   },
                   on: {
-                    change: [
-                      function ($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function (o) {
-                            return o.selected
-                          })
-                          .map(function (o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.cartaTrucada_provincies_id = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      },
-                      function ($event) {
-                        return _vm.actualitzarComarques()
-                      },
-                    ],
+                    change: function ($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function (o) {
+                          return o.selected
+                        })
+                        .map(function (o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.cartaTrucada_provincies_id = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    },
                   },
                 },
                 _vm._l(_vm.provincies, function (provincia) {
@@ -29180,52 +28907,16 @@ var render = function () {
               _c(
                 "select",
                 {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.cartaTrucada_comarques_id,
-                      expression: "cartaTrucada_comarques_id",
-                    },
-                  ],
                   staticClass: "form-select",
-                  attrs: {
-                    id: "comarca",
-                    name: "comarca",
-                    "aria-label": "Default select example",
-                    disabled: "",
-                  },
-                  on: {
-                    change: [
-                      function ($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function (o) {
-                            return o.selected
-                          })
-                          .map(function (o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.cartaTrucada_comarques_id = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      },
-                      function ($event) {
-                        return _vm.actualitzarMunicipis()
-                      },
-                    ],
-                  },
+                  attrs: { "aria-label": "Default select example" },
                 },
-                _vm._l(
-                  _vm.provincies[_vm.posicio_provincia_id].comarques,
-                  function (comarca) {
-                    return _c(
-                      "option",
-                      { key: comarca.id, domProps: { value: comarca.id } },
-                      [_vm._v(_vm._s(comarca.nom))]
-                    )
-                  }
-                ),
+                _vm._l(_vm.comarques, function (comarca) {
+                  return _c(
+                    "option",
+                    { key: comarca.id, attrs: { value: "" } },
+                    [_vm._v(_vm._s(comarca.nom))]
+                  )
+                }),
                 0
               ),
             ]),
@@ -29258,10 +28949,9 @@ var render = function () {
                   ],
                   staticClass: "form-select",
                   attrs: {
-                    id: "municipi",
-                    name: "municipi",
+                    id: "provincia",
+                    name: "provincia",
                     "aria-label": "Default select example",
-                    disabled: "",
                   },
                   on: {
                     change: function ($event) {
@@ -29279,18 +28969,13 @@ var render = function () {
                     },
                   },
                 },
-                _vm._l(
-                  _vm.provincies[_vm.posicio_provincia_id].comarques[
-                    _vm.posicio_comarca_id
-                  ].municipis,
-                  function (municipi) {
-                    return _c(
-                      "option",
-                      { key: municipi.id, domProps: { value: municipi.id } },
-                      [_vm._v(_vm._s(municipi.nom))]
-                    )
-                  }
-                ),
+                _vm._l(_vm.municipis, function (municipi) {
+                  return _c(
+                    "option",
+                    { key: municipi.id, domProps: { value: municipi.id } },
+                    [_vm._v(_vm._s(municipi.nom))]
+                  )
+                }),
                 0
               ),
             ]),
@@ -29425,19 +29110,19 @@ var render = function () {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.cartaTrucada_telefon,
-                    expression: "cartaTrucada_telefon",
+                    value: _vm.cartaTrucada.telefon,
+                    expression: "cartaTrucada.telefon",
                   },
                 ],
                 staticClass: "form-control",
                 attrs: { type: "", id: "" },
-                domProps: { value: _vm.cartaTrucada_telefon },
+                domProps: { value: _vm.cartaTrucada.telefon },
                 on: {
                   input: function ($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.cartaTrucada_telefon = $event.target.value
+                    _vm.$set(_vm.cartaTrucada, "telefon", $event.target.value)
                   },
                 },
               }),
@@ -29463,19 +29148,23 @@ var render = function () {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.cartaTrucada_adreca_trucada,
-                    expression: "cartaTrucada_adreca_trucada",
+                    value: _vm.cartaTrucada.adreca_trucada,
+                    expression: "cartaTrucada.adreca_trucada",
                   },
                 ],
                 staticClass: "form-control",
                 attrs: { type: "", id: "" },
-                domProps: { value: _vm.cartaTrucada_adreca_trucada },
+                domProps: { value: _vm.cartaTrucada.adreca_trucada },
                 on: {
                   input: function ($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.cartaTrucada_adreca_trucada = $event.target.value
+                    _vm.$set(
+                      _vm.cartaTrucada,
+                      "adreca_trucada",
+                      $event.target.value
+                    )
                   },
                 },
               }),
@@ -29505,19 +29194,23 @@ var render = function () {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.cartaTrucada_nom_trucada,
-                    expression: "cartaTrucada_nom_trucada",
+                    value: _vm.cartaTrucada.nom_trucada,
+                    expression: "cartaTrucada.nom_trucada",
                   },
                 ],
                 staticClass: "form-control",
                 attrs: { type: "", id: "" },
-                domProps: { value: _vm.cartaTrucada_nom_trucada },
+                domProps: { value: _vm.cartaTrucada.nom_trucada },
                 on: {
                   input: function ($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.cartaTrucada_nom_trucada = $event.target.value
+                    _vm.$set(
+                      _vm.cartaTrucada,
+                      "nom_trucada",
+                      $event.target.value
+                    )
                   },
                 },
               }),
@@ -29529,34 +29222,14 @@ var render = function () {
                 {
                   staticClass: "btn btn-danger",
                   staticStyle: { "background-color": "#104069" },
-                  attrs: {
-                    id: "buscarAntecedents",
-                    name: "buscarAntecedents",
-                    type: "button",
-                    "data-bs-toggle": "modal",
-                    "data-bs-target": "#modalAlertants",
-                  },
-                },
-                [_vm._v("Buscar Antecedents")]
-              ),
-              _vm._v(" "),
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-danger d-none",
-                  staticStyle: { "background-color": "#104069" },
-                  attrs: {
-                    id: "registrarPersona",
-                    name: "registrarPersona",
-                    type: "button",
-                  },
+                  attrs: { type: "button" },
                   on: {
                     click: function ($event) {
                       return _vm.insertDadesPersonals()
                     },
                   },
                 },
-                [_vm._v("Registrar")]
+                [_vm._v("Registrar/Antecedents")]
               ),
             ]),
           ]),
@@ -29599,12 +29272,14 @@ var render = function () {
         },
       },
       [
-        _c("div", { staticClass: "modal-dialog modal-lg" }, [
+        _c("div", { staticClass: "modal-dialog" }, [
           _c("div", { staticClass: "modal-content" }, [
             _vm._m(3),
             _vm._v(" "),
             _c("div", { staticClass: "modal-body" }, [
               _c("div", [
+                _vm._m(4),
+                _vm._v(" "),
                 _c(
                   "div",
                   {
@@ -29614,7 +29289,7 @@ var render = function () {
                   [
                     _c("div", { staticClass: "row" }, [
                       _c("table", { staticClass: "table table-bordered" }, [
-                        _vm._m(4),
+                        _vm._m(5),
                         _vm._v(" "),
                         _c(
                           "tbody",
@@ -29633,9 +29308,7 @@ var render = function () {
                               ]),
                               _vm._v(" "),
                               _c("td", [
-                                _vm._v(
-                                  _vm._s(expedient.estats_expedients.estat)
-                                ),
+                                _vm._v(_vm._s(expedient.estats_expedients_id)),
                               ]),
                               _vm._v(" "),
                               _c("td", [
@@ -29647,10 +29320,7 @@ var render = function () {
                                       "button",
                                       {
                                         staticClass: "btn btn-success",
-                                        attrs: {
-                                          "data-bs-dismiss": "modal",
-                                          type: "button",
-                                        },
+                                        attrs: { type: "button" },
                                         on: {
                                           click: function ($event) {
                                             return _vm.escollirExpedient(
@@ -29678,124 +29348,6 @@ var render = function () {
         ]),
       ]
     ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "modalAlertants",
-          tabindex: "-1",
-          "aria-labelledby": "modalAlertantsLabel",
-          "aria-hidden": "true",
-        },
-      },
-      [
-        _c(
-          "div",
-          { ref: "modalAlertantsRef", staticClass: "modal-dialog modal-lg" },
-          [
-            _c("div", { staticClass: "modal-content" }, [
-              _vm._m(5),
-              _vm._v(" "),
-              _c("div", { staticClass: "modal-body" }, [
-                _c("div", [
-                  _c(
-                    "div",
-                    {
-                      staticClass: "container",
-                      staticStyle: { "margin-top": "30px" },
-                    },
-                    [
-                      _c("div", { staticClass: "row" }, [
-                        _c("table", { staticClass: "table table-bordered" }, [
-                          _vm._m(6),
-                          _vm._v(" "),
-                          _c(
-                            "tbody",
-                            _vm._l(
-                              _vm.dadesPersonalsLlista,
-                              function (alertant) {
-                                return _c("tr", { key: alertant.id }, [
-                                  _c("td", [_vm._v(_vm._s(alertant.id))]),
-                                  _vm._v(" "),
-                                  _c("td", [_vm._v(_vm._s(alertant.telefon))]),
-                                  _vm._v(" "),
-                                  _c("td", [_vm._v(_vm._s(alertant.adreca))]),
-                                  _vm._v(" "),
-                                  _c("td", [_vm._v(_vm._s(alertant.nom))]),
-                                  _vm._v(" "),
-                                  _c("td", [
-                                    _vm._v(_vm._s(alertant.antecedents)),
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("td", [
-                                    _c(
-                                      "div",
-                                      {
-                                        staticClass: "d-grid gap-2 d-md-block",
-                                      },
-                                      [
-                                        _c(
-                                          "button",
-                                          {
-                                            staticClass: "btn btn-success",
-                                            attrs: {
-                                              id: "btnAlertantTancar",
-                                              type: "button",
-                                              "data-bs-dismiss": "modal",
-                                            },
-                                            on: {
-                                              click: function ($event) {
-                                                return _vm.insertAlertantsAntecedents(
-                                                  alertant
-                                                )
-                                              },
-                                            },
-                                          },
-                                          [_vm._v("Afegir")]
-                                        ),
-                                      ]
-                                    ),
-                                  ]),
-                                ])
-                              }
-                            ),
-                            0
-                          ),
-                        ]),
-                      ]),
-                    ]
-                  ),
-                ]),
-              ]),
-            ]),
-          ]
-        ),
-      ]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "modalError",
-          tabindex: "-1",
-          "aria-labelledby": "modalErrorLabel",
-          "aria-hidden": "true",
-        },
-      },
-      [
-        _c(
-          "div",
-          { ref: "modalErrorRef", staticClass: "modal-dialog modal-lg" },
-          [_vm._m(7)]
-        ),
-      ]
-    ),
-    _vm._v(" "),
-    _vm._m(8),
   ])
 }
 var staticRenderFns = [
@@ -29818,15 +29370,11 @@ var staticRenderFns = [
       _c(
         "button",
         {
-          staticClass: "btn btn-primary",
+          staticClass: "btn btn-danger",
           staticStyle: { "background-color": "#104069" },
-          attrs: {
-            type: "button",
-            "data-bs-toggle": "modal",
-            "data-bs-target": "#mapaModal",
-          },
+          attrs: { type: "button" },
         },
-        [_vm._v("Obrir mapa")]
+        [_vm._v("Obrir Mapa")]
       ),
     ])
   },
@@ -29874,6 +29422,45 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("label", { staticClass: "col-1 col-form-label", attrs: { for: "" } }, [
+        _vm._v("Cercar Per:"),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-2 dropdown d-grid gap-2" }, [
+        _c(
+          "select",
+          {
+            staticClass: "form-select",
+            attrs: { "aria-label": "Default select example" },
+          },
+          [
+            _c("option"),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "1" } }, [_vm._v("Codi")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "2" } }, [
+              _vm._v("Data de Creació"),
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "3" } }, [
+              _vm._v("Data de Modificació"),
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "4" } }, [
+              _vm._v("Usuari Ultima Modificació"),
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "5" } }, [_vm._v("Estat")]),
+          ]
+        ),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
         _c("td", [_vm._v("Codi")]),
@@ -29887,170 +29474,6 @@ var staticRenderFns = [
         _c("td", [_vm._v("Edició")]),
       ]),
     ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h5",
-        { staticClass: "modal-title", attrs: { id: "modalAlertantsLabel" } },
-        [_vm._v("Afegir a un expedient")]
-      ),
-      _vm._v(" "),
-      _c("button", {
-        staticClass: "btn-close",
-        attrs: {
-          type: "button",
-          "data-bs-dismiss": "modal",
-          "aria-label": "Close",
-        },
-      }),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("td", [_vm._v("Id")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("Telefon")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("Adreça")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("Nom")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("Antecedents")]),
-        _vm._v(" "),
-        _c("td"),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-content" }, [
-      _c("div", { staticClass: "modal-header" }, [
-        _c(
-          "h5",
-          { staticClass: "modal-title", attrs: { id: "modalErrorLabel" } },
-          [_vm._v("Error")]
-        ),
-        _vm._v(" "),
-        _c("button", {
-          staticClass: "btn-close",
-          attrs: {
-            type: "button",
-            "data-bs-dismiss": "modal",
-            "aria-label": "Close",
-          },
-        }),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "modal-body", attrs: { id: "mensajeError" } }),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "mapaModal",
-          tabindex: "-1",
-          "aria-labelledby": "mapaModalLabel",
-          "aria-hidden": "true",
-        },
-      },
-      [
-        _c("div", { staticClass: "modal-dialog modal-xl" }, [
-          _c("div", { staticClass: "modal-content" }, [
-            _c(
-              "div",
-              { staticClass: "modal-body", attrs: { id: "modal_body_mapa" } },
-              [
-                _c("div", { attrs: { id: "map" } }),
-                _vm._v(" "),
-                _c("div", { attrs: { id: "menu" } }, [
-                  _c("input", {
-                    attrs: {
-                      id: "satellite-v9",
-                      type: "radio",
-                      name: "rtoggle",
-                      value: "satellite",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("label", { attrs: { for: "satellite-v9" } }, [
-                    _vm._v("Satelite"),
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    attrs: {
-                      id: "light-v10",
-                      type: "radio",
-                      name: "rtoggle",
-                      value: "light",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("label", { attrs: { for: "light-v10" } }, [
-                    _vm._v("Clar"),
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    attrs: {
-                      id: "dark-v10",
-                      type: "radio",
-                      name: "rtoggle",
-                      value: "dark",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("label", { attrs: { for: "dark-v10" } }, [
-                    _vm._v("Obscur"),
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    attrs: {
-                      id: "streets-v11",
-                      type: "radio",
-                      name: "rtoggle",
-                      value: "streets",
-                      checked: "checked",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("label", { attrs: { for: "streets-v11" } }, [
-                    _vm._v("Carrers"),
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    attrs: {
-                      id: "outdoors-v11",
-                      type: "radio",
-                      name: "rtoggle",
-                      value: "outdoors",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("label", { attrs: { for: "outdoors-v11" } }, [
-                    _vm._v("Afores"),
-                  ]),
-                ]),
-              ]
-            ),
-          ]),
-        ]),
-      ]
-    )
   },
 ]
 render._withStripped = true
@@ -30123,132 +29546,34 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("main", [
-    _c("div", [
-      _c(
-        "div",
-        { staticClass: "container", staticStyle: { "margin-top": "30px" } },
-        [
-          _c("div", { staticClass: "row" }, [
-            _c("table", { staticClass: "table table-bordered" }, [
-              _vm._m(0),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.expedients, function (expedient) {
-                  return _c("tr", { key: expedient.id }, [
-                    _c("td", [_vm._v(_vm._s(expedient.id))]),
-                    _vm._v(" "),
-                    _c("td", [_vm._v(_vm._s(expedient.data_creacio))]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(_vm._s(expedient.data_ultima_modificacio)),
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm._v(_vm._s(expedient.estats_expedients.estat)),
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _c("div", { staticClass: "d-grid gap-2 d-md-block" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-info",
-                            attrs: { type: "button" },
-                            on: {
-                              click: function ($event) {
-                                return _vm.mostrarExpedient(expedient.id)
-                              },
-                            },
-                          },
-                          [_vm._v("Veure")]
-                        ),
-                      ]),
-                    ]),
-                  ])
-                }),
-                0
-              ),
-            ]),
-          ]),
-        ]
-      ),
-    ]),
+  return _c("div", [
+    _vm._m(0),
     _vm._v(" "),
     _c(
       "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "modalCartesTrucades",
-          tabindex: "-1",
-          "aria-labelledby": "modalCartesTrucadesLabel",
-          "aria-hidden": "true",
-        },
-      },
+      { staticClass: "container", staticStyle: { "margin-top": "30px" } },
       [
-        _c("div", { staticClass: "modal-dialog modal-lg" }, [
-          _c("div", { staticClass: "modal-content" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("table", { staticClass: "table table-bordered" }, [
             _vm._m(1),
             _vm._v(" "),
-            _c("div", { staticClass: "modal-body" }, [
-              _c("div", [
-                _c(
-                  "div",
-                  {
-                    staticClass: "container",
-                    staticStyle: { "margin-top": "30px" },
-                  },
-                  [
-                    _c("div", { staticClass: "row" }, [
-                      _c("table", { staticClass: "table table-bordered" }, [
-                        _vm._m(2),
-                        _vm._v(" "),
-                        _c(
-                          "tbody",
-                          _vm._l(
-                            _vm.expedient.cartestrucades,
-                            function (cartatrucada) {
-                              return _c("tr", { key: cartatrucada.id }, [
-                                _c("td", [
-                                  _vm._v(_vm._s(cartatrucada.data_hora)),
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _vm._v(_vm._s(cartatrucada.temps_trucada)),
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _vm._v(_vm._s(cartatrucada.telefon)),
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _vm._v(
-                                    _vm._s(cartatrucada.municipis.nom) +
-                                      ", " +
-                                      _vm._s(cartatrucada.provincies.nom)
-                                  ),
-                                ]),
-                                _vm._v(" "),
-                                _c("td", [
-                                  _vm._v(
-                                    _vm._s(cartatrucada.usuari.nom) +
-                                      " " +
-                                      _vm._s(cartatrucada.usuari.cognoms)
-                                  ),
-                                ]),
-                              ])
-                            }
-                          ),
-                          0
-                        ),
-                      ]),
-                    ]),
-                  ]
-                ),
-              ]),
-            ]),
+            _c(
+              "tbody",
+              _vm._l(_vm.expedients, function (expedient) {
+                return _c("tr", { key: expedient.id }, [
+                  _c("td", [_vm._v(_vm._s(expedient.id))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(expedient.data_creacio))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(expedient.data_ultima_modificacio))]),
+                  _vm._v(" "),
+                  _c("td", [_vm._v(_vm._s(expedient.estats_expedients_id))]),
+                  _vm._v(" "),
+                  _vm._m(2, true),
+                ])
+              }),
+              0
+            ),
           ]),
         ]),
       ]
@@ -30256,6 +29581,45 @@ var render = function () {
   ])
 }
 var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "row" }, [
+      _c("label", { staticClass: "col-1 col-form-label", attrs: { for: "" } }, [
+        _vm._v("Cercar Per:"),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-2 dropdown d-grid gap-2" }, [
+        _c(
+          "select",
+          {
+            staticClass: "form-select",
+            attrs: { "aria-label": "Default select example" },
+          },
+          [
+            _c("option"),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "1" } }, [_vm._v("Codi")]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "2" } }, [
+              _vm._v("Data de Creació"),
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "3" } }, [
+              _vm._v("Data de Modificació"),
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "4" } }, [
+              _vm._v("Usuari Ultima Modificació"),
+            ]),
+            _vm._v(" "),
+            _c("option", { attrs: { value: "5" } }, [_vm._v("Estat")]),
+          ]
+        ),
+      ]),
+    ])
+  },
   function () {
     var _vm = this
     var _h = _vm.$createElement
@@ -30270,7 +29634,7 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("td", [_vm._v("Estat")]),
         _vm._v(" "),
-        _c("td"),
+        _c("td", [_vm._v("Edició")]),
       ]),
     ])
   },
@@ -30278,41 +29642,19 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "modal-header" }, [
-      _c(
-        "h5",
-        {
-          staticClass: "modal-title",
-          attrs: { id: "modalCartesTrucadesLabel" },
-        },
-        [_vm._v("Veure un expedient")]
-      ),
-      _vm._v(" "),
-      _c("button", {
-        staticClass: "btn-close",
-        attrs: {
-          type: "button",
-          "data-bs-dismiss": "modal",
-          "aria-label": "Close",
-        },
-      }),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("td", [_vm._v("Data/Hora")]),
+    return _c("td", [
+      _c("div", { staticClass: "d-grid gap-2 d-md-block" }, [
+        _c(
+          "button",
+          { staticClass: "btn btn-info", attrs: { type: "button" } },
+          [_vm._v("Veure")]
+        ),
         _vm._v(" "),
-        _c("td", [_vm._v("Temps trucada")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("Teléfon")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("Localització")]),
-        _vm._v(" "),
-        _c("td", [_vm._v("Atengut per")]),
+        _c(
+          "button",
+          { staticClass: "btn btn-success", attrs: { type: "button" } },
+          [_vm._v("Afegir")]
+        ),
       ]),
     ])
   },
