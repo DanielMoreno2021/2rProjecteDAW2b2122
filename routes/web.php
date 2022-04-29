@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CartesTrucadesController;
+use App\Http\Controllers\ExpedientsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuariController;
 use App\Http\Controllers\TipusIncidentController;
@@ -48,9 +49,11 @@ Route::get('helpboxvideos', function () {
 });
 
 
-Route::get('listaexpedientes', function () {
+/* Route::get('listaexpedientes', function () {
     return view('listaexpedientes');
-});
+}); */
+
+Route::resource('listaexpedientes', ExpedientsController::class);
 
 
 Route::resource('cartallamada', CartesTrucadesController::class);

@@ -11,6 +11,8 @@ use App\Http\Controllers\Api\MunicipisController;
 use App\Http\Controllers\Api\ProvinciesController;
 use App\Http\Controllers\Api\TipusIncidentController;
 use App\Http\Controllers\Api\CartesTrucadesController;
+use App\Http\Controllers\Api\DadesPersonalsController;
+use App\Http\Controllers\Api\ExpedientsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +36,5 @@ Route::apiResource('incidents', IncidentsController::class);
 Route::apiResource('provincies', ProvinciesController::class);
 Route::apiResource('comarques', ComarquesController::class);
 Route::apiResource('municipis', MunicipisController::class);
+Route::apiResource('expedients', ExpedientsController::class);
+Route::apiResource('dadespersonals', DadesPersonalsController::class);

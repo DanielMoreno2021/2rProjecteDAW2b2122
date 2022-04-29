@@ -14,6 +14,7 @@ class ExpedientsController extends Controller
      */
     public function index()
     {
+        return view('listaexpedientes_vue');
         //
     }
 

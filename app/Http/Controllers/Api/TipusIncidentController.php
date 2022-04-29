@@ -16,7 +16,7 @@ class TipusIncidentController extends Controller
      */
     public function index()
     {
-        $tipusIncident = TipusIncident::all();
+        $tipusIncident = TipusIncident::with("incidents.cartestrucades")->get();
         return TipusIncidentResource::collection($tipusIncident);
         //
     }

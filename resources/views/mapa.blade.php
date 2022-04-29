@@ -1,13 +1,19 @@
-Mapa prueba
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="utf-8">
     <title>Add a marker using a place name</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-    <link href="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.css" rel="stylesheet">
-    <script src="https://api.mapbox.com/mapbox-gl-js/v2.7.0/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css" rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css"
+    type="text/css">
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.css" type="text/css">
+
     <style>
         body {
             margin: 0;
@@ -19,138 +25,172 @@ Mapa prueba
             top: 0;
             bottom: 0;
             width: 100%;
+            left: -0.5px;
+        }
+
+        #menu {
+            position: absolute;
+            background: #efefef;
+            padding: 10px;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        .modal-body {
+            height: 500px;
         }
 
     </style>
 </head>
 
 <body>
-    <div id="map"></div>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div id="map"></div>
+                    <div id="menu">
+                        <input id="satellite-v9" type="radio" name="rtoggle" value="satellite">
+                        <label for="satellite-v9">Satelite</label>
+                        <input id="light-v10" type="radio" name="rtoggle" value="light">
+                        <label for="light-v10">Clar</label>
+                        <input id="dark-v10" type="radio" name="rtoggle" value="dark">
+                        <label for="dark-v10">Obscur</label>
+                        <input id="streets-v11" type="radio" name="rtoggle" value="streets" checked="checked">
+                        <label for="streets-v11">Carrers</label>
+                        <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
+                        <label for="outdoors-v11">Afores</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.0/mapbox-gl-directions.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-language/v1.0.0/mapbox-gl-language.js'></script>
+    <!-- <script src="../resources/js/app.js"></script> -->
 
     <script>
-        mapboxgl.accessToken = 'pk.eyJ1IjoiZGFucmVpbmEiLCJhIjoiY2wxa2gwMzB1MDAzYzNjcnZ2bGV2djVxcSJ9.I8gWSrktEj5MWgxUAfOc2w';
-        const mapboxClient = mapboxSdk({
-            accessToken: mapboxgl.accessToken
-        });
-        mapboxClient.geocoding
-            .forwardGeocode({
-                query: 'Caldes de Montbui, Barcelona',
-                autocomplete: false,
-                limit: 1
-            })
-            .send()
-            .then((response) => {
-                if (
-                    !response ||
-                    !response.body ||
-                    !response.body.features ||
-                    !response.body.features.length
-                ) {
-                    console.error('Invalid response:');
-                    console.error(response);
-                    return;
-                }
-                const feature = response.body.features[0];
+        var markers = []
 
+        let agencies;
+        axios
+            .get('http://localhost:8080/2rProjecteDAW2b2122/public/api/Agencies')
+            .then(response => {
+                agencies = response.data;
+            })
+            .catch(error => {})
+            .finally(function() {
+                console.log(agencies);
+                //mapa
+                mapboxgl.accessToken =
+                    'pk.eyJ1IjoiZGFucmVpbmEiLCJhIjoiY2wxa2gwMzB1MDAzYzNjcnZ2bGV2djVxcSJ9.I8gWSrktEj5MWgxUAfOc2w';
+                const mapboxClient = mapboxSdk({
+                    accessToken: mapboxgl.accessToken
+                });
                 const map = new mapboxgl.Map({
                     container: 'map',
                     style: 'mapbox://styles/mapbox/streets-v11',
-                    center: feature.center,
+                    center: [2.1366094151360113, 41.41725955343567],
                     zoom: 10
                 });
+                for (let i in agencies) {
+                    mapboxClient.geocoding
+                        .forwardGeocode({
+                            query: agencies[i].carrer + " , " + agencies[i].municipis.nom,
+                            autocomplete: false,
+                            limit: 1
+                        })
+                        .send()
+                        .then((response) => {
+                            if (
+                                !response ||
+                                !response.body ||
+                                !response.body.features ||
+                                !response.body.features.length
+                            ) {
+                                console.error('Invalid response:');
+                                console.error(response);
+                                return;
+                            }
+                            const feature = response.body.features[0];
 
-                // Create a marker and add it to the map.
-                new mapboxgl.Marker().setLngLat(feature.center).addTo(map);
-            });
+
+
+                            // Create a marker and add it to the map.
+                            new mapboxgl.Marker(markers[i]).setLngLat(feature.center)
+                                .setPopup(new mapboxgl.Popup({
+                                        offset: 25
+                                    }) // add popups
+                                    .setHTML(agencies[i].nom + " , " + agencies[i].carrer))
+                                .addTo(map);
+                        })
+                }
+
+                // PONER EL MAPA EN ESPAÑOL DE ESPAÑA
+                // const language = new MapboxLanguage();
+                // map.addControl(language);
+
+                const layerList = document.getElementById('menu');
+                const inputs = layerList.getElementsByTagName('input');
+
+                for (const input of inputs) {
+                    input.onclick = (layer) => {
+                        const layerId = layer.target.id;
+                        map.setStyle('mapbox://styles/mapbox/' + layerId);
+                    };
+                }
+
+                // Add the control to the map.
+                map.addControl(
+                    new MapboxGeocoder({
+                        accessToken: mapboxgl.accessToken,
+                        mapboxgl: mapboxgl,
+                        placeholder: '     Cercar aqui',
+                        language: 'es-ES'
+                    })
+                );
+
+                // Controles Rotatorios.
+                map.addControl(new mapboxgl.NavigationControl());
+
+                // Control de Rutas
+                map.addControl(
+                new MapboxDirections({
+                accessToken: mapboxgl.accessToken,
+                unit: 'metric',
+                language: 'es',
+                placeholderOrigin: "Escull el lloc d'inici ...",
+	            placeholderDestination: "Escull el teu destí ...",
+                profile: 'mapbox/driving'
+                }),
+                'bottom-right'
+                );
+
+                // Pantalla Completa
+                map.addControl(new mapboxgl.FullscreenControl());
+
+            })
     </script>
-    {{-- <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
-
-    <script>
-        mapboxgl.accessToken = 'pk.eyJ1IjoiZGFucmVpbmEiLCJhIjoiY2wxa2gwMzB1MDAzYzNjcnZ2bGV2djVxcSJ9.I8gWSrktEj5MWgxUAfOc2w';
-        const map = new mapboxgl.Map({
-            container: 'map', // container ID
-            style: 'mapbox://styles/mapbox/light-v10', // style URL
-            center: [2.0402804137958968, 41.41015839313346], // starting position
-            zoom: 8 // starting zoom
-        });
-
-        map.on('load', () => {
-            // Add a data source containing GeoJSON data.
-            map.addSource('maine', {
-                'type': 'geojson',
-                'data': {
-                    'type': 'Feature',
-                    'geometry': {
-                        'type': 'Polygon',
-                        // These coordinates outline Maine.
-                        'coordinates': [
-                            [
-
-                                [0.5094766739237695, 40.523747852246835],
-                                [0.17988685259890114, 40.74468681915712],
-                                [0.2677774716188657, 40.99806951730367],
-                                [0.20185950735389224, 41.134741043164325],
-                                [0.7566690399174201, 42.59912276410092],
-                                [0.6687784208974555, 42.84529154614789],
-                                [0.7346963851624291, 42.853346114715976],
-                                [1.3828897004346707, 42.67994145806531],
-                                [1.4488076646996442, 42.44933149744168],
-                                [1.5641641021633486, 42.44122444172641],
-                                [1.7099114173871774, 42.49194829853149],
-                                [1.9212197419319554, 42.4452781007235],
-                                [2.0032294524333163, 42.35726437979518],
-                                [2.248046080109621, 42.43913214056017],
-                                [2.5691188193786245, 42.35771668588523],
-                                [3.0309973705083695, 42.47321218167571],
-                                [3.186864876516025, 42.43407563715989],
-                                [3.1928619823802795, 42.36026240293255],
-                                [3.333793970190255, 42.33588498363969],
-                                [3.244836899870483, 42.220518318216875],
-                                [3.1548803119066684, 42.236060748031456],
-                                [3.1628764530590074, 42.13163103034996],
-                                [3.2635801019745103, 41.854881917260876],
-                                [2.2386202689766255, 41.30065412814581],
-                                [0.8904673858279535, 40.87778447359519],
-                                [0.8805726659717019, 40.602538033509234],
-
-
-
-                                [0.5094766739237695, 40.523747852246835]
-
-
-
-                            ]
-                        ]
-                    }
-                }
-            });
-
-            // Add a new layer to visualize the polygon.
-            map.addLayer({
-                'id': 'maine',
-                'type': 'fill',
-                'source': 'maine', // reference the data source
-                'layout': {},
-                'paint': {
-                    'fill-color': '#104069', // blue color fill
-                    'fill-opacity': 0.1
-                }
-            });
-            // Add a black outline around the polygon.
-            map.addLayer({
-                'id': 'outline',
-                'type': 'line',
-                'source': 'maine',
-                'layout': {},
-                'paint': {
-                    'line-color': '#000',
-                    'line-width': 3
-                }
-            });
-        });
-    </script> --}}
-
 </body>
 
 </html>

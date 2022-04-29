@@ -19,17 +19,17 @@ class CartesTrucades extends Model
     }
 
     public function provincies(){
-        return $this->hasOne(Provincies::class);
+        return $this->belongsTo(Provincies::class,'provincies_id');
     }
 
     public function municipis(){
-        return $this->hasOne(Municipis::class);
+        return $this->belongsTo(Municipis::class,'municipis_id');
     }
     public function dadesPersonals(){
         return $this->hasOne(DadesPersonals::class);
     }
     public function usuari(){
-        return $this->hasOne(Usuari::class);
+        return $this->belongsTo(Usuari::class,'usuaris_id');
     }
     public function tipusLocalitzacions(){
         return $this->hasOne(TipusLocalitzacions::class);

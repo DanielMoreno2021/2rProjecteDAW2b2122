@@ -16,7 +16,7 @@ class ProvinciesController extends Controller
      */
     public function index()
     {
-        $provincies = Provincies::all();
+        $provincies = Provincies::with("comarques.municipis")->get();
         return ProvinciesResource::collection($provincies);
         //
     }
@@ -40,7 +40,8 @@ class ProvinciesController extends Controller
      */
     public function show(Provincies $provincies)
     {
-        //
+        $provincia = Provincies::with("comarques.municipis")->get();
+        return ProvinciesResource::collection($provincia);
     }
 
     /**

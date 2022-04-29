@@ -16,13 +16,13 @@ class Expedients extends Model
 
     public function estatsExpedients()
     {
-        return $this->hasMany(EstatsExpedients::class,'estats_expedients_id');
+        return $this->belongsTo(EstatsExpedients::class,'estats_expedients_id');
     }
 
 
     public function cartestrucades()
     {
-        return $this->belongsTo(CartesTrucades::class, 'estats_expedients');
+        return $this->hasMany(CartesTrucades::class, 'expedients_id');
     }
 
 }

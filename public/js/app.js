@@ -5409,15 +5409,227 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    usuari: {
+      type: Number,
+      required: true
+    }
+  },
   data: function data() {
     return {
-      cartesTrucades: [],
+      cartaTrucada: {
+        //Por defecto será 500, se debería poder hacer auto increment
+        codi_trucada: 500,
+        data_hora: null,
+        temps_trucada: "",
+        dades_personals_id: "",
+        telefon: "",
+        //Por defecto se introduciran valores
+        procedencia_trucada: "Defecto",
+        origen_trucada: "Defecto",
+        nom_trucada: "",
+        municipis_id_trucada: "",
+        adreca_trucada: "",
+        fora_catalunya: false,
+        provincies_id: "",
+        municipis_id: "",
+        //Por defecto va a ser siempre una calle.
+        tipus_localitzacions_id: "1",
+        descripcio_localitzacio: "",
+        detall_localitzacio: "",
+        altres_ref_localitzacio: "",
+        incidents_id: "",
+        nota_comuna: "",
+        expedients_id: "",
+        usuaris_id: ""
+      },
+      //PARA CREAR EXPEDIENTE NUEVO
+      expedients: {
+        id: "",
+        data_creacio: "",
+        data_ultima_modificacio: "",
+        estats_expedients_id: 1
+      },
+      dadesPersonals: {
+        id: "",
+        telefon: "",
+        adreca: "",
+        nom: "",
+        antecedents: ""
+      },
+      //PARA RECOGER LA LISTA DE EXPEDIENTES
+      expedientsLlista: [],
+      dadesPersonalsLlista: [],
       tipusincidents: [],
-      incidents: [],
       provincies: [],
-      comarques: [],
-      municipis: []
+      municipis: [],
+      cartaTrucada_incidents_id: "",
+      cartaTrucada_provincies_id: "",
+      posicio_provincia_id: "0",
+      posicio_previa: "0",
+      primera_vegada: true,
+      posicio_comarca_id: "0",
+      posicio_incident_id: "0",
+      cartaTrucada_municipis_id: "",
+      cartaTrucada_comarques_id: "",
+      cartaTrucada_telefon: "",
+      cartaTrucada_adreca_trucada: "",
+      cartaTrucada_nom_trucada: "",
+      cartaTrucada_fora_catalunya: false,
+      popUpError: false
     };
   },
   created: function created() {
@@ -5431,22 +5643,8 @@ __webpack_require__.r(__webpack_exports__);
     })["finally"](function () {
       return _this.loading = false;
     });
-    axios.get('/incidents').then(function (response) {
-      me.incidents = response.data;
-    })["catch"](function (error) {
-      console.log(error);
-    })["finally"](function () {
-      return _this.loading = false;
-    });
     axios.get('/provincies').then(function (response) {
       me.provincies = response.data;
-    })["catch"](function (error) {
-      console.log(error);
-    })["finally"](function () {
-      return _this.loading = false;
-    });
-    axios.get('/comarques').then(function (response) {
-      me.comarques = response.data;
     })["catch"](function (error) {
       console.log(error);
     })["finally"](function () {
@@ -5459,23 +5657,289 @@ __webpack_require__.r(__webpack_exports__);
     })["finally"](function () {
       return _this.loading = false;
     });
+    axios.get('/expedients').then(function (response) {
+      me.expedientsLlista = response.data;
+    })["catch"](function (error) {
+      console.log(error);
+    })["finally"](function () {
+      return _this.loading = false;
+    });
+    axios.get('/dadespersonals').then(function (response) {
+      me.dadesPersonalsLlista = response.data;
+    })["catch"](function (error) {
+      console.log(error);
+    })["finally"](function () {
+      return _this.loading = false;
+    });
   },
   methods: {
+    currentTime: function currentTime() {
+      var current = new Date();
+      var time = {
+        "Hora": current.getHours(),
+        "Minutos": current.getMinutes(),
+        "Segundos": current.getSeconds()
+      };
+      return time;
+    },
+    currentDay: function currentDay() {
+      var current = new Date();
+      var time = current.getFullYear() + "-" + (current.getMonth() + 1) + "-" + current.getUTCDate() + " " + current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
+      return time;
+    },
+    actualitzarTempsTrucada: function actualitzarTempsTrucada() {
+      var horaActual = this.currentTime();
+      var horaComparada = horaActual["Hora"] - this.cartaTrucada.data_hora["Hora"];
+      var minutoComparado = horaActual["Minutos"] - this.cartaTrucada.data_hora["Minutos"];
+      var segundoComparado = horaActual["Segundos"] - this.cartaTrucada.data_hora["Segundos"];
+      horaComparada = horaComparada * 3600;
+      minutoComparado = minutoComparado * 60;
+      return horaComparada + minutoComparado + segundoComparado;
+    },
     actualitzarIncidents: function actualitzarIncidents() {
-      var _this2 = this;
-
       //AQUÍ NECESITARIAMOS PASARLE LA ID DEL TIPO DE INCIDENTE COMO PARÁMETRO, Y EN EL CONTROLLER QUE BUSQUE POR TAL EN VEZ DE SER ALEATORIO.
       var me = this;
-      axios.get('/incidents').then(function (response) {
-        me.incidents = response.data;
+      me.posicio_incident_id = this.$el.querySelector("#tipusIncident").selectedIndex;
+      me.cartaTrucada_incidents_id = "";
+    },
+    actualitzarComarques: function actualitzarComarques() {
+      var me = this;
+      me.posicio_provincia_id = this.$el.querySelector("#provincia").selectedIndex;
+      me.cartaTrucada_comarques_id = "";
+      me.cartaTrucada_municipis_id = "";
+      document.getElementById("comarca").disabled = false;
+      document.getElementById("municipi").disabled = true;
+    },
+    actualitzarMunicipis: function actualitzarMunicipis() {
+      var me = this;
+
+      if (me.posicio_provincia_id == me.posicio_previa) {
+        document.getElementById("municipi").disabled = false;
+        me.posicio_comarca_id = this.$el.querySelector("#comarca").selectedIndex;
+      } else if (me.primera_vegada) {
+        document.getElementById("municipi").disabled = false;
+        me.posicio_comarca_id = this.$el.querySelector("#comarca").selectedIndex;
+        me.primera_vegada = false;
+      } else {
+        document.getElementById("municipi").disabled = true;
+        me.posicio_comarca_id = "0";
+      }
+
+      me.posicio_previa = me.posicio_provincia_id;
+      me.cartaTrucada_municipis_id = "";
+    },
+    insertCartaTrucadaExpedientNou: function insertCartaTrucadaExpedientNou() {
+      var me = this;
+      me.actualitzarHora();
+      debugger;
+      me.crearExpedientNou();
+      me.cartaTrucada.expedients_id = me.expedients.id;
+      me.crearCartaTrucada();
+    },
+    actualitzarHora: function actualitzarHora() {
+      var me = this; //Compara la hora de inicio y la hora actual y devuelve los segundos totales.
+
+      me.cartaTrucada.temps_trucada = this.actualitzarTempsTrucada();
+      me.expedients.data_creacio = this.currentDay();
+      me.expedients.data_ultima_modificacio = this.currentDay();
+      me.cartaTrucada.data_hora = this.currentDay();
+    },
+    afegirCartaTrucadaAExpedient: function afegirCartaTrucadaAExpedient() {
+      var _this2 = this;
+
+      var me = this;
+      axios.post('/2rProjecteDAW2b2122/public/api/cartestrucades', me.cartaTrucada).then(function (response) {
+        console.log(response);
+        history.go(-1);
       })["catch"](function (error) {
-        console.log(error);
+        console.log(error.response.data.error);
+        var modalAlertants = new bootstrap.Modal(document.getElementById('modalError'), {
+          keyboard: false
+        });
+        document.getElementById("mensajeError").innerHTML = error.response.data.error;
+        modalAlertants.toggle();
       })["finally"](function () {
         return _this2.loading = false;
       });
+    },
+    crearExpedientNou: function crearExpedientNou() {
+      var _this3 = this;
+
+      var me = this;
+      axios.post('/2rProjecteDAW2b2122/public/api/expedients', me.expedients).then(function (response) {
+        me.expedients = response.data;
+      })["catch"](function (error) {
+        console.log(error.response.data.error);
+        var modalAlertants = new bootstrap.Modal(document.getElementById('modalError'), {
+          keyboard: false
+        });
+        document.getElementById("mensajeError").innerHTML = error.response.data.error;
+        modalAlertants.toggle();
+      })["finally"](function () {
+        return _this3.loading = false;
+      });
+    },
+    crearCartaTrucada: function crearCartaTrucada() {
+      var _this4 = this;
+
+      var me = this;
+      axios.post('/2rProjecteDAW2b2122/public/api/cartestrucades', me.cartaTrucada).then(function (response) {
+        console.log(response);
+        history.go(-1);
+      })["catch"](function (error) {
+        /*
+         let modalAlertants = new bootstrap.Modal(document.getElementById('modalError'), {
+            keyboard: false
+        });
+         document.getElementById("mensajeError").innerHTML = error.response.data.error;
+          modalAlertants.toggle(); */
+      })["finally"](function () {
+        return _this4.loading = false;
+      });
+    },
+    insertDadesPersonals: function insertDadesPersonals() {
+      var _this5 = this;
+
+      var me = this;
+      me.dadesPersonals.telefon = me.cartaTrucada.telefon;
+      me.dadesPersonals.adreca = me.cartaTrucada.adreca_trucada;
+      me.dadesPersonals.nom = me.cartaTrucada.nom_trucada;
+      me.dadesPersonals.antecedents = "Cap Antecedent";
+      axios.post('/dadespersonals', me.dadesPersonals).then(function (response) {
+        me.dadesPersonals = response.data;
+        me.cartaTrucada.dades_personals_id = me.dadesPersonals.id;
+        var modalAlertants = new bootstrap.Modal(document.getElementById('modalError'), {
+          keyboard: false
+        });
+        document.getElementById("mensajeError").innerHTML = "Registre de alertant completat!";
+        document.getElementById("modalErrorLabel").innerHTML = "Correcte";
+        modalAlertants.toggle();
+      })["catch"](function (error) {
+        console.log(error.response.data.error);
+        var modalAlertants = new bootstrap.Modal(document.getElementById('modalError'), {
+          keyboard: false
+        });
+        document.getElementById("mensajeError").innerHTML = error.response.data.error;
+        modalAlertants.toggle();
+      })["finally"](function () {
+        return _this5.loading = false;
+      });
+    },
+    insertAlertantsAntecedents: function insertAlertantsAntecedents(alertant) {
+      var me = this;
+      me.cartaTrucada_telefon = alertant.telefon;
+      me.cartaTrucada_adreca_trucada = alertant.adreca;
+      me.cartaTrucada_nom_trucada = alertant.nom;
+      me.cartaTrucada.dades_personals_id = alertant.id;
+    },
+    escollirExpedient: function escollirExpedient(id) {
+      var me = this;
+      me.cartaTrucada.expedients_id = id;
+      me.actualitzarHora();
+      me.crearCartaTrucada();
+    },
+    //No se puede acceder desde el watch
+    comprobarUsuari: function comprobarUsuari() {
+      if (this.cartaTrucada.nom_trucada != "" && this.cartaTrucada.codi_trucada != "" && this.cartaTrucada.telefon != "") {
+        document.getElementById("buscarAntecedents").classList.add("d-none");
+        document.getElementById("registrarPersona").classList.remove("d-none");
+      } else {
+        document.getElementById("buscarAntecedents").classList.remove("d-none");
+        document.getElementById("registrarPersona").classList.add("d-none");
+      }
+    }
+  },
+  watch: {
+    //Recoge los datos que haya introducido el usuario.
+    cartaTrucada_incidents_id: function cartaTrucada_incidents_id(val) {
+      this.cartaTrucada.incidents_id = this.tipusincidents.find(function (valor) {
+        return valor.id == val;
+      });
+      this.cartaTrucada.incidents_id = val;
+    },
+    idIncidentBuscar: function idIncidentBuscar(val) {
+      this.incidents_id = val;
+    },
+    cartaTrucada_provincies_id: function cartaTrucada_provincies_id(val) {
+      this.cartaTrucada.provincies_id = this.provincies.find(function (valor) {
+        return valor.id == val;
+      });
+      this.cartaTrucada.provincies_id = val;
+    },
+    idProvinciaBuscar: function idProvinciaBuscar(val) {
+      this.provincies_id = val;
+    },
+    cartaTrucada_municipis_id: function cartaTrucada_municipis_id(val) {
+      this.cartaTrucada.municipis_id = this.municipis.find(function (valor) {
+        return valor.id == val;
+      });
+      this.cartaTrucada.municipis_id = val;
+      this.cartaTrucada.municipis_id_trucada = this.municipis.find(function (valor) {
+        return valor.id == val;
+      });
+      this.cartaTrucada.municipis_id_trucada = val;
+    },
+    idMunicipiBuscar: function idMunicipiBuscar(val) {
+      this.municipis_id = val;
+      this.municipis_id_trucada = val;
+    },
+    //Al introducir datos de la carta de Trucada, si se introducen todos los datos,
+    //se dará la opción de registrar en vez de la de seleccionar un antecedente.
+    cartaTrucada_telefon: function cartaTrucada_telefon(val) {
+      this.cartaTrucada.telefon = val; //comprobarUsuari();
+
+      if (this.cartaTrucada.nom_trucada != "" && this.cartaTrucada.adreca_trucada != "" && this.cartaTrucada.telefon != "") {
+        document.getElementById("buscarAntecedents").classList.add("d-none");
+        document.getElementById("registrarPersona").classList.remove("d-none");
+      } else {
+        document.getElementById("buscarAntecedents").classList.remove("d-none");
+        document.getElementById("registrarPersona").classList.add("d-none");
+      }
+    },
+    cartaTrucada_nom_trucada: function cartaTrucada_nom_trucada(val) {
+      this.cartaTrucada.nom_trucada = val;
+
+      if (this.cartaTrucada.nom_trucada != "" && this.cartaTrucada.adreca_trucada != "" && this.cartaTrucada.telefon != "") {
+        document.getElementById("buscarAntecedents").classList.add("d-none");
+        document.getElementById("registrarPersona").classList.remove("d-none");
+      } else {
+        document.getElementById("buscarAntecedents").classList.remove("d-none");
+        document.getElementById("registrarPersona").classList.add("d-none");
+      } //comprobarUsuari();
+
+    },
+    cartaTrucada_adreca_trucada: function cartaTrucada_adreca_trucada(val) {
+      this.cartaTrucada.adreca_trucada = val;
+
+      if (this.cartaTrucada.nom_trucada != "" && this.cartaTrucada.adreca_trucada != "" && this.cartaTrucada.telefon != "") {
+        document.getElementById("buscarAntecedents").classList.add("d-none");
+        document.getElementById("registrarPersona").classList.remove("d-none");
+      } else {
+        document.getElementById("buscarAntecedents").classList.remove("d-none");
+        document.getElementById("registrarPersona").classList.add("d-none");
+      } //comprobarUsuari();
+
+    },
+    //INCOMPLETO,ESTO ES PARA CUANDO SE PRESIONE EL BOTÓN DE FUERA DE CATALUÑA, SE SUPRIMAN LAS OPCIONES DE PROVINCIA, COMARCA Y MUNICIPIO
+    cartaTrucada_fora_catalunya: function cartaTrucada_fora_catalunya(val) {
+      this.cartaTrucada.fora_catalunya = val;
+
+      if (this.cartaTrucada.fora_catalunya) {
+        this.cartaTrucada_provincies_id = "";
+        this.cartaTrucada_comarques_id = "";
+        this.cartaTrucada_municipis_id = "";
+        this.primera_vegada = true;
+        document.getElementById("provincia").disabled = true;
+        document.getElementById("comarca").disabled = true;
+        document.getElementById("municipi").disabled = true;
+      } else {
+        document.getElementById("provincia").disabled = false;
+      }
     }
   },
   mounted: function mounted() {
+    this.cartaTrucada.data_hora = this.currentTime();
+    this.cartaTrucada.usuaris_id = this.usuari;
     console.log('Component mounted.');
   }
 });
@@ -5517,6 +5981,143 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ExpedientsComponent.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ExpedientsComponent.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      expedients: [],
+      expedient: {},
+      valor_inicial: "1"
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    var me = this;
+    axios.get('/expedients').then(function (response) {
+      me.expedients = response.data;
+    })["catch"](function (error) {
+      console.log(error);
+    })["finally"](function () {
+      return _this.loading = false;
+    });
+  },
+  methods: {
+    mostrarExpedient: function mostrarExpedient(id) {
+      var me = this;
+      axios.get('/expedients/' + id).then(function (response) {
+        me.expedient = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+      })["finally"](function () {
+        var modalObrirCartesTrucades = new bootstrap.Modal(document.getElementById('modalCartesTrucades'), {
+          keyboard: false
+        });
+        modalObrirCartesTrucades.toggle();
+      });
+    }
+  },
+  mounted: function mounted() {
+    console.log('Component mounted.');
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -5543,6 +6144,7 @@ window.Vue = (__webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js
 
 Vue.component('example-component', (__webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]));
 Vue.component('cartes-trucades-component', (__webpack_require__(/*! ./components/CartesTrucadesComponent.vue */ "./resources/js/components/CartesTrucadesComponent.vue")["default"]));
+Vue.component('expedients-component', (__webpack_require__(/*! ./components/ExpedientsComponent.vue */ "./resources/js/components/ExpedientsComponent.vue")["default"]));
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -28129,6 +28731,45 @@ component.options.__file = "resources/js/components/ExampleComponent.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/ExpedientsComponent.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/ExpedientsComponent.vue ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ExpedientsComponent_vue_vue_type_template_id_09e7638d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ExpedientsComponent.vue?vue&type=template&id=09e7638d& */ "./resources/js/components/ExpedientsComponent.vue?vue&type=template&id=09e7638d&");
+/* harmony import */ var _ExpedientsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ExpedientsComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/ExpedientsComponent.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ExpedientsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ExpedientsComponent_vue_vue_type_template_id_09e7638d___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ExpedientsComponent_vue_vue_type_template_id_09e7638d___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ExpedientsComponent.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/CartesTrucadesComponent.vue?vue&type=script&lang=js&":
 /*!**************************************************************************************!*\
   !*** ./resources/js/components/CartesTrucadesComponent.vue?vue&type=script&lang=js& ***!
@@ -28158,6 +28799,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ExampleComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ExampleComponent.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExampleComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/ExpedientsComponent.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/ExpedientsComponent.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExpedientsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ExpedientsComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ExpedientsComponent.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ExpedientsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -28195,6 +28852,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/ExpedientsComponent.vue?vue&type=template&id=09e7638d&":
+/*!****************************************************************************************!*\
+  !*** ./resources/js/components/ExpedientsComponent.vue?vue&type=template&id=09e7638d& ***!
+  \****************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExpedientsComponent_vue_vue_type_template_id_09e7638d___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExpedientsComponent_vue_vue_type_template_id_09e7638d___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ExpedientsComponent_vue_vue_type_template_id_09e7638d___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ExpedientsComponent.vue?vue&type=template&id=09e7638d& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ExpedientsComponent.vue?vue&type=template&id=09e7638d&");
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/CartesTrucadesComponent.vue?vue&type=template&id=105fa3d2&":
 /*!***********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/CartesTrucadesComponent.vue?vue&type=template&id=105fa3d2& ***!
@@ -28211,196 +28885,917 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-2 col-form-label",
-          attrs: {
-            for: "",
-            "data-bs-toggle": "tooltip",
-            "data-bs-placement": "top",
-            title: "What is your type of Emergency?",
-          },
-        },
-        [_vm._v("Tipus de Emergencia")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-4 dropdown d-grid gap-2" }, [
-        _c(
-          "select",
-          {
-            staticClass: "form-select",
-            attrs: { "aria-label": "Default select example" },
+  return _c("main", [
+    _c("div", { staticClass: "container" }, [
+      _c("form", [
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "label",
+            {
+              staticClass: "col-2 col-form-label",
+              attrs: {
+                for: "",
+                "data-bs-toggle": "tooltip",
+                "data-bs-placement": "top",
+                title: "What is your type of Emergency?",
+              },
+            },
+            [_vm._v("Tipus de Emergencia")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-4 dropdown d-grid gap-2" }, [
+            _c(
+              "select",
+              {
+                staticClass: "form-select",
+                attrs: {
+                  id: "tipusIncident",
+                  name: "tipusIncident",
+                  "aria-label": "Default select example",
+                },
+                on: {
+                  change: function ($event) {
+                    return _vm.actualitzarIncidents()
+                  },
+                },
+              },
+              _vm._l(_vm.tipusincidents, function (tipusincident) {
+                return _c("option", { key: tipusincident.id }, [
+                  _vm._v(_vm._s(tipusincident.descripcio)),
+                ])
+              }),
+              0
+            ),
+          ]),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "col-2 col-form-label",
+              attrs: {
+                for: "",
+                "data-bs-toggle": "tooltip",
+                "data-bs-placement": "top",
+                title: "What is your Emergency? / What do you need?",
+              },
+            },
+            [_vm._v("Emergencia")]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-4 dropdown d-grid gap-2" }, [
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.cartaTrucada_incidents_id,
+                    expression: "cartaTrucada_incidents_id",
+                  },
+                ],
+                staticClass: "form-select",
+                attrs: {
+                  id: "incident",
+                  name: "incident",
+                  "aria-label": "Default select example",
+                },
+                on: {
+                  change: function ($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function (o) {
+                        return o.selected
+                      })
+                      .map(function (o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.cartaTrucada_incidents_id = $event.target.multiple
+                      ? $$selectedVal
+                      : $$selectedVal[0]
+                  },
+                },
+              },
+              _vm._l(
+                _vm.tipusincidents[_vm.posicio_incident_id].incidents,
+                function (incident) {
+                  return _c(
+                    "option",
+                    { key: incident.id, domProps: { value: incident.id } },
+                    [_vm._v(" " + _vm._s(incident.descripcio))]
+                  )
+                }
+              ),
+              0
+            ),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-group" }, [
+          _c("label", { attrs: { for: "exampleFormControlTextarea1" } }, [
+            _vm._v("Nota Comuna"),
+          ]),
+          _vm._v(" "),
+          _c("textarea", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.cartaTrucada.nota_comuna,
+                expression: "cartaTrucada.nota_comuna",
+              },
+            ],
+            staticClass: "form-control textarea",
+            attrs: { id: "nota_comuna", name: "nota_comuna", rows: "1" },
+            domProps: { value: _vm.cartaTrucada.nota_comuna },
             on: {
-              change: function ($event) {
-                return _vm.actualitzarIncidents()
+              input: function ($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.cartaTrucada, "nota_comuna", $event.target.value)
               },
             },
-          },
-          _vm._l(_vm.tipusincidents, function (tipusincident) {
-            return _c(
-              "option",
-              { key: tipusincident.id, attrs: { value: "" } },
-              [_vm._v(_vm._s(tipusincident.descripcio))]
-            )
           }),
-          0
-        ),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mt-3 justify-content-between" }, [
+          _c("div", { staticClass: "row" }, [
+            _c(
+              "label",
+              {
+                staticClass: "col-1 col-form-label",
+                attrs: {
+                  for: "",
+                  "data-bs-toggle": "tooltip",
+                  "data-bs-placement": "top",
+                  title: "What is your Location?",
+                },
+              },
+              [_vm._v("Localització")]
+            ),
+            _vm._v(" "),
+            _vm._m(0),
+            _vm._v(" "),
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-check col-3" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.cartaTrucada_fora_catalunya,
+                    expression: "cartaTrucada_fora_catalunya",
+                  },
+                ],
+                staticClass: "form-check-input",
+                attrs: { type: "checkbox", id: "flexCheckDefault" },
+                domProps: {
+                  checked: Array.isArray(_vm.cartaTrucada_fora_catalunya)
+                    ? _vm._i(_vm.cartaTrucada_fora_catalunya, null) > -1
+                    : _vm.cartaTrucada_fora_catalunya,
+                },
+                on: {
+                  change: function ($event) {
+                    var $$a = _vm.cartaTrucada_fora_catalunya,
+                      $$el = $event.target,
+                      $$c = $$el.checked ? true : false
+                    if (Array.isArray($$a)) {
+                      var $$v = null,
+                        $$i = _vm._i($$a, $$v)
+                      if ($$el.checked) {
+                        $$i < 0 &&
+                          (_vm.cartaTrucada_fora_catalunya = $$a.concat([$$v]))
+                      } else {
+                        $$i > -1 &&
+                          (_vm.cartaTrucada_fora_catalunya = $$a
+                            .slice(0, $$i)
+                            .concat($$a.slice($$i + 1)))
+                      }
+                    } else {
+                      _vm.cartaTrucada_fora_catalunya = $$c
+                    }
+                  },
+                },
+              }),
+              _vm._v(" "),
+              _c(
+                "label",
+                {
+                  staticClass: "form-check-label",
+                  attrs: { for: "flexCheckDefault" },
+                },
+                [
+                  _vm._v(
+                    "\n                  Fora de Catalunya\n                "
+                  ),
+                ]
+              ),
+            ]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mt-3 justify-content-between" }, [
+          _c("div", { staticClass: "row" }, [
+            _c(
+              "label",
+              {
+                staticClass: "col-1 col-form-label",
+                attrs: {
+                  for: "",
+                  "data-bs-toggle": "tooltip",
+                  "data-bs-placement": "top",
+                  title: "What province are you in?",
+                },
+              },
+              [_vm._v("Provincia")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-3 dropdown d-grid gap-2" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.cartaTrucada_provincies_id,
+                      expression: "cartaTrucada_provincies_id",
+                    },
+                  ],
+                  staticClass: "form-select",
+                  attrs: {
+                    id: "provincia",
+                    name: "provincia",
+                    "aria-label": "Default select example",
+                  },
+                  on: {
+                    change: [
+                      function ($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function (o) {
+                            return o.selected
+                          })
+                          .map(function (o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.cartaTrucada_provincies_id = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      function ($event) {
+                        return _vm.actualitzarComarques()
+                      },
+                    ],
+                  },
+                },
+                _vm._l(_vm.provincies, function (provincia) {
+                  return _c(
+                    "option",
+                    { key: provincia.id, domProps: { value: provincia.id } },
+                    [_vm._v(_vm._s(provincia.nom))]
+                  )
+                }),
+                0
+              ),
+            ]),
+            _vm._v(" "),
+            _c(
+              "label",
+              {
+                staticClass: "col-1 col-form-label",
+                attrs: {
+                  for: "",
+                  "data-bs-toggle": "tooltip",
+                  "data-bs-placement": "top",
+                  title: "What region are you in?",
+                },
+              },
+              [_vm._v("Comarca")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-3 dropdown d-grid gap-2" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.cartaTrucada_comarques_id,
+                      expression: "cartaTrucada_comarques_id",
+                    },
+                  ],
+                  staticClass: "form-select",
+                  attrs: {
+                    id: "comarca",
+                    name: "comarca",
+                    "aria-label": "Default select example",
+                    disabled: "",
+                  },
+                  on: {
+                    change: [
+                      function ($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function (o) {
+                            return o.selected
+                          })
+                          .map(function (o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.cartaTrucada_comarques_id = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      },
+                      function ($event) {
+                        return _vm.actualitzarMunicipis()
+                      },
+                    ],
+                  },
+                },
+                _vm._l(
+                  _vm.provincies[_vm.posicio_provincia_id].comarques,
+                  function (comarca) {
+                    return _c(
+                      "option",
+                      { key: comarca.id, domProps: { value: comarca.id } },
+                      [_vm._v(_vm._s(comarca.nom))]
+                    )
+                  }
+                ),
+                0
+              ),
+            ]),
+            _vm._v(" "),
+            _c(
+              "label",
+              {
+                staticClass: "col-1 col-form-label",
+                attrs: {
+                  for: "",
+                  "data-bs-toggle": "tooltip",
+                  "data-bs-placement": "top",
+                  title: "What municipality are you in?",
+                },
+              },
+              [_vm._v("Municipi")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-3 dropdown d-grid gap-2" }, [
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.cartaTrucada_municipis_id,
+                      expression: "cartaTrucada_municipis_id",
+                    },
+                  ],
+                  staticClass: "form-select",
+                  attrs: {
+                    id: "municipi",
+                    name: "municipi",
+                    "aria-label": "Default select example",
+                    disabled: "",
+                  },
+                  on: {
+                    change: function ($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function (o) {
+                          return o.selected
+                        })
+                        .map(function (o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.cartaTrucada_municipis_id = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    },
+                  },
+                },
+                _vm._l(
+                  _vm.provincies[_vm.posicio_provincia_id].comarques[
+                    _vm.posicio_comarca_id
+                  ].municipis,
+                  function (municipi) {
+                    return _c(
+                      "option",
+                      { key: municipi.id, domProps: { value: municipi.id } },
+                      [_vm._v(_vm._s(municipi.nom))]
+                    )
+                  }
+                ),
+                0
+              ),
+            ]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mt-3 justify-content-between" }, [
+          _c("div", { staticClass: "row" }, [
+            _c(
+              "label",
+              { staticClass: "col-2 col-form-label", attrs: { for: "" } },
+              [_vm._v("Descripció")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-4" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.cartaTrucada.descripcio_localitzacio,
+                    expression: "cartaTrucada.descripcio_localitzacio",
+                  },
+                ],
+                staticClass: "form-control",
+                attrs: { type: "", id: "" },
+                domProps: { value: _vm.cartaTrucada.descripcio_localitzacio },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.cartaTrucada,
+                      "descripcio_localitzacio",
+                      $event.target.value
+                    )
+                  },
+                },
+              }),
+            ]),
+            _vm._v(" "),
+            _c(
+              "label",
+              { staticClass: "col-2 col-form-label", attrs: { for: "" } },
+              [_vm._v("Detalls")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-4" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.cartaTrucada.detall_localitzacio,
+                    expression: "cartaTrucada.detall_localitzacio",
+                  },
+                ],
+                staticClass: "form-control",
+                attrs: { type: "", id: "" },
+                domProps: { value: _vm.cartaTrucada.detall_localitzacio },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(
+                      _vm.cartaTrucada,
+                      "detall_localitzacio",
+                      $event.target.value
+                    )
+                  },
+                },
+              }),
+            ]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("form", [
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "exampleFormControlTextarea1" } }, [
+              _vm._v("Altres Referencies"),
+            ]),
+            _vm._v(" "),
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.cartaTrucada.altres_ref_localitzacio,
+                  expression: "cartaTrucada.altres_ref_localitzacio",
+                },
+              ],
+              staticClass: "form-control",
+              attrs: { id: "exampleFormControlTextarea1", rows: "3" },
+              domProps: { value: _vm.cartaTrucada.altres_ref_localitzacio },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(
+                    _vm.cartaTrucada,
+                    "altres_ref_localitzacio",
+                    $event.target.value
+                  )
+                },
+              },
+            }),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mt-3 justify-content-between" }, [
+          _c("div", { staticClass: "row" }, [
+            _c(
+              "label",
+              {
+                staticClass: "col-2 col-form-label",
+                attrs: {
+                  for: "",
+                  "data-bs-toggle": "tooltip",
+                  "data-bs-placement": "top",
+                  title: "What is your telephone number?",
+                },
+              },
+              [_vm._v("Telèfon")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-4" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.cartaTrucada_telefon,
+                    expression: "cartaTrucada_telefon",
+                  },
+                ],
+                staticClass: "form-control",
+                attrs: { type: "", id: "" },
+                domProps: { value: _vm.cartaTrucada_telefon },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.cartaTrucada_telefon = $event.target.value
+                  },
+                },
+              }),
+            ]),
+            _vm._v(" "),
+            _c(
+              "label",
+              {
+                staticClass: "col-2 col-form-label",
+                attrs: {
+                  for: "",
+                  "data-bs-toggle": "tooltip",
+                  "data-bs-placement": "top",
+                  title: "What is your address?",
+                },
+              },
+              [_vm._v("Direcció")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-4" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.cartaTrucada_adreca_trucada,
+                    expression: "cartaTrucada_adreca_trucada",
+                  },
+                ],
+                staticClass: "form-control",
+                attrs: { type: "", id: "" },
+                domProps: { value: _vm.cartaTrucada_adreca_trucada },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.cartaTrucada_adreca_trucada = $event.target.value
+                  },
+                },
+              }),
+            ]),
+          ]),
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mt-3 justify-content-between" }, [
+          _c("div", { staticClass: "row" }, [
+            _c(
+              "label",
+              {
+                staticClass: "col-2 col-form-label",
+                attrs: {
+                  for: "",
+                  "data-bs-toggle": "tooltip",
+                  "data-bs-placement": "top",
+                  title: "What is your name?",
+                },
+              },
+              [_vm._v("Nom")]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-4" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.cartaTrucada_nom_trucada,
+                    expression: "cartaTrucada_nom_trucada",
+                  },
+                ],
+                staticClass: "form-control",
+                attrs: { type: "", id: "" },
+                domProps: { value: _vm.cartaTrucada_nom_trucada },
+                on: {
+                  input: function ($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.cartaTrucada_nom_trucada = $event.target.value
+                  },
+                },
+              }),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-6 d-grid gap-2" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-danger",
+                  staticStyle: { "background-color": "#104069" },
+                  attrs: {
+                    id: "buscarAntecedents",
+                    name: "buscarAntecedents",
+                    type: "button",
+                    "data-bs-toggle": "modal",
+                    "data-bs-target": "#modalAlertants",
+                  },
+                },
+                [_vm._v("Buscar Antecedents")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-danger d-none",
+                  staticStyle: { "background-color": "#104069" },
+                  attrs: {
+                    id: "registrarPersona",
+                    name: "registrarPersona",
+                    type: "button",
+                  },
+                  on: {
+                    click: function ($event) {
+                      return _vm.insertDadesPersonals()
+                    },
+                  },
+                },
+                [_vm._v("Registrar")]
+              ),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "mt-3 justify-content-center" }, [
+            _c("div", { staticClass: "row" }, [
+              _vm._m(2),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-6 d-grid gap-2" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger",
+                    staticStyle: { "background-color": "#104069" },
+                    attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.insertCartaTrucadaExpedientNou()
+                      },
+                    },
+                  },
+                  [_vm._v("Crear expedient nou")]
+                ),
+              ]),
+            ]),
+          ]),
+        ]),
       ]),
-      _vm._v(" "),
-      _c(
-        "label",
-        {
-          staticClass: "col-2 col-form-label",
-          attrs: {
-            for: "",
-            "data-bs-toggle": "tooltip",
-            "data-bs-placement": "top",
-            title: "What is your Emergency? / What do you need?",
-          },
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "modalExpedients",
+          tabindex: "-1",
+          "aria-labelledby": "modalExpedientsLabel",
+          "aria-hidden": "true",
         },
-        [_vm._v("Emergencia")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-4 dropdown d-grid gap-2" }, [
-        _c(
-          "select",
-          {
-            staticClass: "form-select",
-            attrs: { "aria-label": "Default select example" },
-          },
-          _vm._l(_vm.incidents, function (incident) {
-            return _c("option", { key: incident.id, attrs: { value: "" } }, [
-              _vm._v(_vm._s(incident.descripcio)),
-            ])
-          }),
-          0
-        ),
-      ]),
-    ]),
-    _vm._v(" "),
-    _vm._m(0),
-    _vm._v(" "),
-    _vm._m(1),
-    _vm._v(" "),
-    _c("div", { staticClass: "mt-3 justify-content-between" }, [
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "label",
-          {
-            staticClass: "col-1 col-form-label",
-            attrs: {
-              for: "",
-              "data-bs-toggle": "tooltip",
-              "data-bs-placement": "top",
-              title: "What province are you in?",
-            },
-          },
-          [_vm._v("Provincia")]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-3 dropdown d-grid gap-2" }, [
-          _c(
-            "select",
-            {
-              staticClass: "form-select",
-              attrs: { "aria-label": "Default select example" },
-              on: {
-                change: function ($event) {
-                  return _vm.actualitzarComarques()
-                },
-              },
-            },
-            _vm._l(_vm.provincies, function (provincia) {
-              return _c("option", { key: provincia.id, attrs: { value: "" } }, [
-                _vm._v(_vm._s(provincia.nom)),
-              ])
-            }),
-            0
-          ),
+      },
+      [
+        _c("div", { staticClass: "modal-dialog modal-lg" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(3),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("div", [
+                _c(
+                  "div",
+                  {
+                    staticClass: "container",
+                    staticStyle: { "margin-top": "30px" },
+                  },
+                  [
+                    _c("div", { staticClass: "row" }, [
+                      _c("table", { staticClass: "table table-bordered" }, [
+                        _vm._m(4),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.expedientsLlista, function (expedient) {
+                            return _c("tr", { key: expedient.id }, [
+                              _c("td", [_vm._v(_vm._s(expedient.id))]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(expedient.data_creacio)),
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(expedient.data_ultima_modificacio)
+                                ),
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(
+                                  _vm._s(expedient.estats_expedients.estat)
+                                ),
+                              ]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _c(
+                                  "div",
+                                  { staticClass: "d-grid gap-2 d-md-block" },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-success",
+                                        attrs: {
+                                          "data-bs-dismiss": "modal",
+                                          type: "button",
+                                        },
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.escollirExpedient(
+                                              expedient.id
+                                            )
+                                          },
+                                        },
+                                      },
+                                      [_vm._v("Afegir")]
+                                    ),
+                                  ]
+                                ),
+                              ]),
+                            ])
+                          }),
+                          0
+                        ),
+                      ]),
+                    ]),
+                  ]
+                ),
+              ]),
+            ]),
+          ]),
         ]),
-        _vm._v(" "),
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "modalAlertants",
+          tabindex: "-1",
+          "aria-labelledby": "modalAlertantsLabel",
+          "aria-hidden": "true",
+        },
+      },
+      [
         _c(
-          "label",
-          {
-            staticClass: "col-1 col-form-label",
-            attrs: {
-              for: "",
-              "data-bs-toggle": "tooltip",
-              "data-bs-placement": "top",
-              title: "What region are you in?",
-            },
-          },
-          [_vm._v("Comarca")]
+          "div",
+          { ref: "modalAlertantsRef", staticClass: "modal-dialog modal-lg" },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(5),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("div", [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "container",
+                      staticStyle: { "margin-top": "30px" },
+                    },
+                    [
+                      _c("div", { staticClass: "row" }, [
+                        _c("table", { staticClass: "table table-bordered" }, [
+                          _vm._m(6),
+                          _vm._v(" "),
+                          _c(
+                            "tbody",
+                            _vm._l(
+                              _vm.dadesPersonalsLlista,
+                              function (alertant) {
+                                return _c("tr", { key: alertant.id }, [
+                                  _c("td", [_vm._v(_vm._s(alertant.id))]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(alertant.telefon))]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(alertant.adreca))]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(alertant.nom))]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _vm._v(_vm._s(alertant.antecedents)),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass: "d-grid gap-2 d-md-block",
+                                      },
+                                      [
+                                        _c(
+                                          "button",
+                                          {
+                                            staticClass: "btn btn-success",
+                                            attrs: {
+                                              id: "btnAlertantTancar",
+                                              type: "button",
+                                              "data-bs-dismiss": "modal",
+                                            },
+                                            on: {
+                                              click: function ($event) {
+                                                return _vm.insertAlertantsAntecedents(
+                                                  alertant
+                                                )
+                                              },
+                                            },
+                                          },
+                                          [_vm._v("Afegir")]
+                                        ),
+                                      ]
+                                    ),
+                                  ]),
+                                ])
+                              }
+                            ),
+                            0
+                          ),
+                        ]),
+                      ]),
+                    ]
+                  ),
+                ]),
+              ]),
+            ]),
+          ]
         ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-3 dropdown d-grid gap-2" }, [
-          _c(
-            "select",
-            {
-              staticClass: "form-select",
-              attrs: { "aria-label": "Default select example" },
-              on: {
-                change: function ($event) {
-                  return _vm.actualitzarComarques()
-                },
-              },
-            },
-            _vm._l(_vm.comarques, function (comarca) {
-              return _c("option", { key: comarca.id, attrs: { value: "" } }, [
-                _vm._v(_vm._s(comarca.nom)),
-              ])
-            }),
-            0
-          ),
-        ]),
-        _vm._v(" "),
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "modalError",
+          tabindex: "-1",
+          "aria-labelledby": "modalErrorLabel",
+          "aria-hidden": "true",
+        },
+      },
+      [
         _c(
-          "label",
-          {
-            staticClass: "col-1 col-form-label",
-            attrs: {
-              for: "",
-              "data-bs-toggle": "tooltip",
-              "data-bs-placement": "top",
-              title: "What municipality are you in?",
-            },
-          },
-          [_vm._v("Municipi")]
+          "div",
+          { ref: "modalErrorRef", staticClass: "modal-dialog modal-lg" },
+          [_vm._m(7)]
         ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-3 dropdown d-grid gap-2" }, [
-          _c(
-            "select",
-            {
-              staticClass: "form-select",
-              attrs: { "aria-label": "Default select example" },
-              on: {
-                change: function ($event) {
-                  return _vm.actualitzarComarques()
-                },
-              },
-            },
-            _vm._l(_vm.municipis, function (municipi) {
-              return _c("option", { key: municipi.id, attrs: { value: "" } }, [
-                _vm._v(_vm._s(municipi.nom)),
-              ])
-            }),
-            0
-          ),
-        ]),
-      ]),
-    ]),
+      ]
+    ),
     _vm._v(" "),
-    _vm._m(2),
-    _vm._v(" "),
-    _vm._m(3),
-    _vm._v(" "),
-    _vm._m(4),
-    _vm._v(" "),
-    _vm._m(5),
+    _vm._m(8),
   ])
 }
 var staticRenderFns = [
@@ -28408,245 +29803,254 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("form", [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "exampleFormControlTextarea1" } }, [
-          _vm._v("Nota Comuna"),
-        ]),
+    return _c("div", { staticClass: "col-3" }, [
+      _c("input", {
+        staticClass: "form-control",
+        attrs: { type: "", id: "", readonly: "" },
+      }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-5 d-grid gap-2" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          staticStyle: { "background-color": "#104069" },
+          attrs: {
+            type: "button",
+            "data-bs-toggle": "modal",
+            "data-bs-target": "#mapaModal",
+          },
+        },
+        [_vm._v("Obrir mapa")]
+      ),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-6 d-grid gap-2" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-danger",
+          attrs: {
+            type: "button",
+            "data-bs-toggle": "modal",
+            "data-bs-target": "#modalExpedients",
+          },
+        },
+        [_vm._v("Afegir a un Expedient")]
+      ),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "modalExpedientsLabel" } },
+        [_vm._v("Afegir a un expedient")]
+      ),
+      _vm._v(" "),
+      _c("button", {
+        staticClass: "btn-close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close",
+        },
+      }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("td", [_vm._v("Codi")]),
         _vm._v(" "),
-        _c("textarea", {
-          staticClass: "form-control textarea",
-          attrs: { id: "exampleFormControlTextarea1", rows: "1" },
+        _c("td", [_vm._v("Data de Creació")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Data de Modificació")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Estat")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Edició")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        { staticClass: "modal-title", attrs: { id: "modalAlertantsLabel" } },
+        [_vm._v("Afegir a un expedient")]
+      ),
+      _vm._v(" "),
+      _c("button", {
+        staticClass: "btn-close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close",
+        },
+      }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("td", [_vm._v("Id")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Telefon")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Adreça")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Nom")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Antecedents")]),
+        _vm._v(" "),
+        _c("td"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-content" }, [
+      _c("div", { staticClass: "modal-header" }, [
+        _c(
+          "h5",
+          { staticClass: "modal-title", attrs: { id: "modalErrorLabel" } },
+          [_vm._v("Error")]
+        ),
+        _vm._v(" "),
+        _c("button", {
+          staticClass: "btn-close",
+          attrs: {
+            type: "button",
+            "data-bs-dismiss": "modal",
+            "aria-label": "Close",
+          },
         }),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mt-3 justify-content-between" }, [
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "label",
-          {
-            staticClass: "col-1 col-form-label",
-            attrs: {
-              for: "",
-              "data-bs-toggle": "tooltip",
-              "data-bs-placement": "top",
-              title: "What is your Location?",
-            },
-          },
-          [_vm._v("Localització")]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-3" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: { type: "", id: "", readonly: "" },
-          }),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-5 d-grid gap-2" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-danger",
-              staticStyle: { "background-color": "#104069" },
-              attrs: { type: "button" },
-            },
-            [_vm._v("Obrir Mapa")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "form-check col-3" }, [
-          _c("input", {
-            staticClass: "form-check-input",
-            attrs: { type: "checkbox", value: "", id: "flexCheckDefault" },
-          }),
-          _vm._v(" "),
-          _c(
-            "label",
-            {
-              staticClass: "form-check-label",
-              attrs: { for: "flexCheckDefault" },
-            },
-            [_vm._v("\n              Fora de Catalunya\n            ")]
-          ),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mt-3 justify-content-between" }, [
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "label",
-          { staticClass: "col-2 col-form-label", attrs: { for: "" } },
-          [_vm._v("Descripció")]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-4" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: { type: "", id: "" },
-          }),
-        ]),
-        _vm._v(" "),
-        _c(
-          "label",
-          { staticClass: "col-2 col-form-label", attrs: { for: "" } },
-          [_vm._v("Detalls")]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-4" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: { type: "", id: "" },
-          }),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("form", [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "exampleFormControlTextarea1" } }, [
-          _vm._v("Altres Referencies"),
-        ]),
-        _vm._v(" "),
-        _c("textarea", {
-          staticClass: "form-control",
-          attrs: { id: "exampleFormControlTextarea1", rows: "3" },
-        }),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mt-3 justify-content-between" }, [
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "label",
-          {
-            staticClass: "col-2 col-form-label",
-            attrs: {
-              for: "",
-              "data-bs-toggle": "tooltip",
-              "data-bs-placement": "top",
-              title: "What is your telephone number?",
-            },
-          },
-          [_vm._v("Telèfon")]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-4" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: { type: "", id: "" },
-          }),
-        ]),
-        _vm._v(" "),
-        _c(
-          "label",
-          {
-            staticClass: "col-2 col-form-label",
-            attrs: {
-              for: "",
-              "data-bs-toggle": "tooltip",
-              "data-bs-placement": "top",
-              title: "What is your address?",
-            },
-          },
-          [_vm._v("Direcció")]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-4" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: { type: "", id: "" },
-          }),
-        ]),
-      ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mt-3 justify-content-between" }, [
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "label",
-          {
-            staticClass: "col-2 col-form-label",
-            attrs: {
-              for: "",
-              "data-bs-toggle": "tooltip",
-              "data-bs-placement": "top",
-              title: "What is your name?",
-            },
-          },
-          [_vm._v("Nom")]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-4" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: { type: "", id: "" },
-          }),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-6 d-grid gap-2" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-danger",
-              staticStyle: { "background-color": "#104069" },
-              attrs: { type: "button" },
-            },
-            [_vm._v("Registrar/Antecedents")]
-          ),
-        ]),
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "mt-3 justify-content-center" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-6 d-grid gap-2" }, [
+      _c("div", { staticClass: "modal-body", attrs: { id: "mensajeError" } }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "mapaModal",
+          tabindex: "-1",
+          "aria-labelledby": "mapaModalLabel",
+          "aria-hidden": "true",
+        },
+      },
+      [
+        _c("div", { staticClass: "modal-dialog modal-xl" }, [
+          _c("div", { staticClass: "modal-content" }, [
             _c(
-              "button",
-              {
-                staticClass: "btn btn-danger",
-                staticStyle: { "background-color": "#104069" },
-                attrs: { type: "button" },
-              },
-              [_vm._v("Afegir a un expedient")]
-            ),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-6 d-grid gap-2" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-danger",
-                staticStyle: { "background-color": "#104069" },
-                attrs: { type: "button" },
-              },
-              [_vm._v("Crear expedient nou")]
+              "div",
+              { staticClass: "modal-body", attrs: { id: "modal_body_mapa" } },
+              [
+                _c("div", { attrs: { id: "map" } }),
+                _vm._v(" "),
+                _c("div", { attrs: { id: "menu" } }, [
+                  _c("input", {
+                    attrs: {
+                      id: "satellite-v9",
+                      type: "radio",
+                      name: "rtoggle",
+                      value: "satellite",
+                    },
+                  }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "satellite-v9" } }, [
+                    _vm._v("Satelite"),
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    attrs: {
+                      id: "light-v10",
+                      type: "radio",
+                      name: "rtoggle",
+                      value: "light",
+                    },
+                  }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "light-v10" } }, [
+                    _vm._v("Clar"),
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    attrs: {
+                      id: "dark-v10",
+                      type: "radio",
+                      name: "rtoggle",
+                      value: "dark",
+                    },
+                  }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "dark-v10" } }, [
+                    _vm._v("Obscur"),
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    attrs: {
+                      id: "streets-v11",
+                      type: "radio",
+                      name: "rtoggle",
+                      value: "streets",
+                      checked: "checked",
+                    },
+                  }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "streets-v11" } }, [
+                    _vm._v("Carrers"),
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    attrs: {
+                      id: "outdoors-v11",
+                      type: "radio",
+                      name: "rtoggle",
+                      value: "outdoors",
+                    },
+                  }),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "outdoors-v11" } }, [
+                    _vm._v("Afores"),
+                  ]),
+                ]),
+              ]
             ),
           ]),
         ]),
-      ]),
-    ])
+      ]
+    )
   },
 ]
 render._withStripped = true
@@ -28693,6 +30097,222 @@ var staticRenderFns = [
             ]),
           ]),
         ]),
+      ]),
+    ])
+  },
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ExpedientsComponent.vue?vue&type=template&id=09e7638d&":
+/*!*******************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ExpedientsComponent.vue?vue&type=template&id=09e7638d& ***!
+  \*******************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("main", [
+    _c("div", [
+      _c(
+        "div",
+        { staticClass: "container", staticStyle: { "margin-top": "30px" } },
+        [
+          _c("div", { staticClass: "row" }, [
+            _c("table", { staticClass: "table table-bordered" }, [
+              _vm._m(0),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.expedients, function (expedient) {
+                  return _c("tr", { key: expedient.id }, [
+                    _c("td", [_vm._v(_vm._s(expedient.id))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(expedient.data_creacio))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(_vm._s(expedient.data_ultima_modificacio)),
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(_vm._s(expedient.estats_expedients.estat)),
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _c("div", { staticClass: "d-grid gap-2 d-md-block" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-info",
+                            attrs: { type: "button" },
+                            on: {
+                              click: function ($event) {
+                                return _vm.mostrarExpedient(expedient.id)
+                              },
+                            },
+                          },
+                          [_vm._v("Veure")]
+                        ),
+                      ]),
+                    ]),
+                  ])
+                }),
+                0
+              ),
+            ]),
+          ]),
+        ]
+      ),
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "modalCartesTrucades",
+          tabindex: "-1",
+          "aria-labelledby": "modalCartesTrucadesLabel",
+          "aria-hidden": "true",
+        },
+      },
+      [
+        _c("div", { staticClass: "modal-dialog modal-lg" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("div", [
+                _c(
+                  "div",
+                  {
+                    staticClass: "container",
+                    staticStyle: { "margin-top": "30px" },
+                  },
+                  [
+                    _c("div", { staticClass: "row" }, [
+                      _c("table", { staticClass: "table table-bordered" }, [
+                        _vm._m(2),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          _vm._l(
+                            _vm.expedient.cartestrucades,
+                            function (cartatrucada) {
+                              return _c("tr", { key: cartatrucada.id }, [
+                                _c("td", [
+                                  _vm._v(_vm._s(cartatrucada.data_hora)),
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(cartatrucada.temps_trucada)),
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(_vm._s(cartatrucada.telefon)),
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(
+                                    _vm._s(cartatrucada.municipis.nom) +
+                                      ", " +
+                                      _vm._s(cartatrucada.provincies.nom)
+                                  ),
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _vm._v(
+                                    _vm._s(cartatrucada.usuari.nom) +
+                                      " " +
+                                      _vm._s(cartatrucada.usuari.cognoms)
+                                  ),
+                                ]),
+                              ])
+                            }
+                          ),
+                          0
+                        ),
+                      ]),
+                    ]),
+                  ]
+                ),
+              ]),
+            ]),
+          ]),
+        ]),
+      ]
+    ),
+  ])
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("td", [_vm._v("Codi")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Data de Creació")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Data de Modificació")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Estat")]),
+        _vm._v(" "),
+        _c("td"),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c(
+        "h5",
+        {
+          staticClass: "modal-title",
+          attrs: { id: "modalCartesTrucadesLabel" },
+        },
+        [_vm._v("Veure un expedient")]
+      ),
+      _vm._v(" "),
+      _c("button", {
+        staticClass: "btn-close",
+        attrs: {
+          type: "button",
+          "data-bs-dismiss": "modal",
+          "aria-label": "Close",
+        },
+      }),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("td", [_vm._v("Data/Hora")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Temps trucada")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Teléfon")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Localització")]),
+        _vm._v(" "),
+        _c("td", [_vm._v("Atengut per")]),
       ]),
     ])
   },
