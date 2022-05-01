@@ -40,7 +40,7 @@
 
             <!-- Botó d'obrir mapa -->
           <div class="col-5 d-grid gap-2">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" style="background-color: #104069" data-bs-target="#mapaModal">Obrir mapa</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" style="background-color: #104069" data-bs-target="#mapaModal">Obrir Mapa</button>
           </div>
 
             <!-- En cas de que sigui fora de catalunya, es deshabilitaria les funcions de  provincia, comarca, municipi -->
