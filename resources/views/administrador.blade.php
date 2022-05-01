@@ -32,7 +32,7 @@
         </button>
         <ul class="dropdown-menu" id="dropdownMenuButton1">
           <li><a class="dropdown-item" href="{{ url('/cartallamada') }}">Crear Carta Trucada</a></li>
-          <li><a class="dropdown-item" href="#">Generar Gràfics</a></li>
+          <li><a class="dropdown-item" href="{{ url('/generargraficos') }}">Generar Gràfics</a></li>
           <li><a class="dropdown-item" href="{{ url('/listaexpedientes') }}">Consultar Expedients</a></li>
           <li><a class="dropdown-item" href="{{ url('/helpboxvideos') }}">Consultar Ajuda</a></li>
         </ul>

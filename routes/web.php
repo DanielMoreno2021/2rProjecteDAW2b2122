@@ -1,11 +1,13 @@
 <?php
 
-use App\Http\Controllers\CartesTrucadesController;
-use App\Http\Controllers\ExpedientsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuariController;
-use App\Http\Controllers\TipusIncidentController;
 use App\Http\Controllers\IncidentsController;
+use App\Http\Controllers\ExpedientsController;
+use App\Http\Controllers\TipusIncidentController;
+use App\Http\Controllers\CartesTrucadesController;
+use App\Http\Controllers\GenerarGraficosController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -60,3 +62,5 @@ Route::resource('cartallamada', CartesTrucadesController::class);
 // Route::resource('cartallamada', IncidentsController::class);
 
 Route::resource('gestionusuarios', UsuariController::class);
+
+Route::resource('generargraficos', GenerarGraficosController::class);

@@ -25,7 +25,7 @@
     <button onclick="window.location.href='{{ url('/cartallamada') }}'" type="button" class="btn btn-danger crearcartallamada">CREAR CARTA TRUCADA</button>
     </div>
     <div class="col-6 col-offset-2 text-center">
-    <button type="button" class="btn btn-danger generargraficos" style="background-color: #104069;">GENERAR GRÀFICS</button>
+        <button onclick="window.location.href='{{ url('/generargraficos') }}'"  type="button" class="btn btn-danger generargraficos" style="background-color: #104069;">GENERAR GRÀFICS</button>
     </div>
     <div class="col-6 col-offset-2 text-center">
     <button onclick="window.location.href='{{ url('/listaexpedientes') }}'" type="button" class="btn btn-danger consultaexpediente" style="background-color: #104069;">CONSULTAR EXPEDIENTS</button>
