@@ -55,14 +55,11 @@
                                     <button type="submit" class="btn btn-sm btn-secondary"><i class="fa fa-edit "
                                             aria-hidden="true"></i>Modificar</button>
                                 </form>
-                                <form class="float-right ml-1"
-                                    action="{{ action([App\Http\Controllers\UsuariController::class, 'destroy'], ['gestionusuario' => $usuari->id]) }}"
-                                    method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash "
-                                            aria-hidden="true"></i>Esborrar</button>
-                                </form>
+                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal" data-bs-nombre="{{ $usuari->nom }}"
+                                    data-bs-whatever="{{ action([App\Http\Controllers\UsuariController::class, 'destroy'], ['gestionusuario' => $usuari->id]) }}">
+                                    <i class="fa fa-trash " aria-hidden="true"></i>Esborrar</button>
+
                             </td>
                             <td>
                                 @if ($usuari->perfils_id == 1)
@@ -81,4 +78,48 @@
         </div>
     </div>
     </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <form id="formBorrar" class="float-right ml-1" action="" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash "
+                                aria-hidden="true"></i>Esborrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Button trigger modal -->
+    <script>
+        var exampleModal = document.getElementById('exampleModal')
+        exampleModal.addEventListener('show.bs.modal', function(event) {
+            // Button that triggered the modal
+            var button = event.relatedTarget
+            // Extract info from data-bs-* attributes
+            var recipient = button.getAttribute('data-bs-whatever')
+            var recipient2 = button.getAttribute('data-bs-nombre')
+            // If necessary, you could initiate an AJAX request here
+            // and then do the updating in a callback.
+            //
+            // Update the modal's content.
+            var modalTitle = exampleModal.querySelector('#exampleModalLabel')
+            var form = exampleModal.querySelector('#formBorrar')
+            form.setAttribute('action', recipient)
+
+            modalTitle.textContent = 'Segur que vols eliminar a  ' + recipient2 + '?'
+            modalBodyInput.value = recipient
+        })
+    </script>
 @endsection
