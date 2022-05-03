@@ -1,7 +1,7 @@
 @extends('plantillas.principal')
 
 @section('titulodecadapagina')
-    <title>Generar Graficos</title>
+    <title>Generar Gráficos</title>
 @endsection
 
 @section('botoncerrarsesion')

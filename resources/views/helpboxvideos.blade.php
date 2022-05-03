@@ -59,7 +59,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title">Vols escoltar una altra resposta?</h5>
+            <h5 class="modal-title" style="color:black">Vols escoltar una altra resposta?</h5>
         </div>
         <div class="modal-body">
             <div class="row justify-content-evenly">
@@ -74,11 +74,7 @@
         </div>
     </div>
 </div>
-<div style="text-align: center; margin-top: 10px;">
-        <button type="button btn-lg" class="btn btn-primary">Manual d'ajuda</button>
-        <button type="button btn-lg" class="btn btn-danger">Examen</button>
-</div>
-<div style="text-align: center;">
+<div style="text-align: center; margin-top: 20px;">
     <video width="50%" height="auto" poster="image" preload="true" id="medio">
       <source src="../resources/videos/Proyecto.mp4" type="video/mp4" />
       Your browser does not support the video tag.

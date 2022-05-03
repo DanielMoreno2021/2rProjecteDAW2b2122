@@ -29,7 +29,7 @@
               @elseif ((Auth::user()->perfils_id == 3))
                   <a class="navbar-brand mx-auto" href="#">Administrador</a>
               @else
-                  <a class="" style="margin-left: 20px;" href="#">Supervisor</a>
+                  <a class="navbar-brand mx-auto" href="#">Supervisor</a>
               @endif
 
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">

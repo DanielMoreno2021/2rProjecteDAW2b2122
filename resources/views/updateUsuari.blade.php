@@ -1,12 +1,12 @@
 @extends('plantillas.principal')
 
 @section('titulodecadapagina')
-    <title>Editar Usuario</title>
+    <title>Cancelar Usuari</title>
 @endsection
 
 @section('botoncerrarsesion')
     <form class="d-flex">
-        <button class="btn btn-outline-dark" type="submit">Cancelar Carta</button>
+        <button class="btn btn-outline-dark" type="submit">Cancelar Modificació</button>
     </form>
 @endsection
 
@@ -66,7 +66,7 @@
 
                     <label for="" class="col-2 col-form-label">Nom</label>
                     <div class="col-4">
-                        <input type="text" class="form-control" id="nom" name="nom" value="{{ $gestionusuario->codi }}">
+                        <input type="text" class="form-control" id="nom" name="nom" value="{{ $gestionusuario->nom }}">
                     </div>
 
                     <label for="" class=" col-2 col-form-label">Cognoms</label>
@@ -82,35 +82,13 @@
                 <div class="row">
 
                     <label for="" class="col-2 col-form-label">Contrasenya</label>
-                    <div class="col-5">
+                    <div class="col-4">
                         <input type="password" class="form-control" id="contrassenya" name="contrassenya"
                             value="{{ $gestionusuario->contrassenya }}">
                     </div>
-
-                    {{-- <label class="col-2 form-check-label" for="defaultCheck1">
-                Fuera de Catalunya
-            </label> --}}
-
-
-                </div>
-            </div>
-            {{-- <div class="mt-3 justify-content-evenly">
-                <div class="row">
-
-                    <label for="" class="col-2 col-form-label">Confirmar Contraseña:</label>
-                    <div class="col-5">
-                        <input type="password" class="form-control" id="contrassenya" name="contrassenya">
-                    </div>
-
-                    {{-- <label class="col-2 form-check-label" for="defaultCheck1">
-                Fuera de Catalunya
-            </label> --}}
-            {{-- </div>
-            </div> --}}
-
-            <div class="mt-3 justify-content-center mt-4">
-                <div class="row">
-                    <div class="col-4 d-grid offset-md-8">
+                    
+                    <label for="" class="col-2 col-form-label"></label>
+                    <div class="col-4 d-grid">
                         <button type="submit" class="btn btn-danger" style="background-color: #104069">Editar
                             Usuari</button>
                     </div>

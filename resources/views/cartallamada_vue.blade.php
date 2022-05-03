@@ -39,7 +39,7 @@
         }
 
         #modal_body_mapa {
-            height: 500px;
+            height: 800px;
         }
 
     </style>
@@ -83,7 +83,7 @@
 
         let agencies;
         axios
-            .get('http://localhost:8080/2rProjecteDAW2b2122/public/api/Agencies')
+            .get('http://localhost:80/2rProjecteDAW2b2122/public/api/Agencies')
             .then(response => {
                 agencies = response.data;
             })

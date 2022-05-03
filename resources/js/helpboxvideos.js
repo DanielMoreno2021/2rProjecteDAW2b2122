@@ -150,7 +150,7 @@ window.addEventListener('load', iniciar, false);
     document.getElementById("opcion1").addEventListener("click", function(){
             modalInicial.hide();
             medio.currentTime = 22;
-            MediaRecorder.play();
+            medio.play();
         },false);
         document.getElementById("opcion2").addEventListener("click", function(){
             modalInicial.hide();
